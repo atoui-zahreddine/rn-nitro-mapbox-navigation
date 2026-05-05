@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewTreeObserver
 import android.widget.FrameLayout
+import com.facebook.react.bridge.LifecycleEventListener
 import com.facebook.react.uimanager.ThemedReactContext
 import com.mapbox.api.directions.v5.DirectionsCriteria
 import com.mapbox.api.directions.v5.models.RouteOptions
@@ -67,8 +68,8 @@ import com.mapbox.navigation.voice.model.SpeechVolume
 import com.margelo.nitro.nitromapboxnavigation.databinding.NavigationViewBinding
 import java.util.*
 
-class NavigationView(context: ThemedReactContext, private val implementation: HybridNitroMapboxNavigation) :
-  FrameLayout(context) {
+class NavigationView(context: ThemedReactContext, private var implementation: HybridNitroMapboxNavigation?) :
+  FrameLayout(context), LifecycleEventListener {
 
   private companion object {
     private const val BUTTON_ANIMATION_DURATION = 1500L
@@ -229,7 +230,7 @@ class NavigationView(context: ThemedReactContext, private val implementation: Hy
         Log.d(TAG, "First location update, camera set to overview")
       }
 
-      implementation.onLocationChange?.invoke(
+      implementation?.onLocationChange?.invoke(
         LocationData(
           latitude = enhancedLocation.latitude,
           longitude = enhancedLocation.longitude,
@@ -294,7 +295,7 @@ class NavigationView(context: ThemedReactContext, private val implementation: Hy
     Log.d(TAG, "Trip progress view updated")
     updateTripProgressCard(tripProgressApi.getTripProgress(routeProgress))
 
-    implementation.onRouteProgressChange?.invoke(
+    implementation?.onRouteProgressChange?.invoke(
       RouteProgress(
         distanceTraveled = routeProgress.distanceTraveled.toDouble(),
         distanceRemaining = routeProgress.distanceRemaining.toDouble(),
@@ -358,6 +359,8 @@ class NavigationView(context: ThemedReactContext, private val implementation: Hy
     }
   }
 
+  private val reactContext = context
+
   init {
     mapboxNavigation = (if (MapboxNavigationProvider.isCreated()) {
       MapboxNavigationProvider.retrieve()
@@ -367,6 +370,19 @@ class NavigationView(context: ThemedReactContext, private val implementation: Hy
           .build()
       )
     })
+    reactContext.addLifecycleEventListener(this)
+  }
+
+  override fun onHostResume() {
+    binding.mapView.onStart()
+  }
+
+  override fun onHostPause() {
+    binding.mapView.onStop()
+  }
+
+  override fun onHostDestroy() {
+    cleanup()
   }
 
   /**
@@ -381,31 +397,44 @@ class NavigationView(context: ThemedReactContext, private val implementation: Hy
     Log.d(TAG, "NavigationView attached to window")
   }
 
-  /**
-   * Called when the view is detached from a window.
-   * Unregisters observers, clears navigation routes, hides UI elements,
-   * cancels APIs, shuts down the voice player, and destroys MapboxNavigation.
-   */
   override fun onDetachedFromWindow() {
     super.onDetachedFromWindow()
+    cleanup()
+  }
+
+  private var isCleanedUp = false
+
+  private fun cleanup() {
+    if (isCleanedUp) return
+    isCleanedUp = true
+
     mapboxNavigation?.unregisterRoutesObserver(routesObserver)
     mapboxNavigation?.unregisterArrivalObserver(arrivalObserver)
     mapboxNavigation?.unregisterLocationObserver(locationObserver)
     mapboxNavigation?.unregisterRouteProgressObserver(routeProgressObserver)
     mapboxNavigation?.unregisterVoiceInstructionsObserver(voiceInstructionsObserver)
+    mapboxNavigation?.stopTripSession()
     mapboxNavigation?.setNavigationRoutes(listOf())
-    binding.soundButton.visibility = INVISIBLE
-    binding.maneuverView.visibility = INVISIBLE
-    binding.routeOverview.visibility = INVISIBLE
-    binding.tripProgressCard.visibility = INVISIBLE
-    maneuverApi.cancel()
+
+    if (::maneuverApi.isInitialized) maneuverApi.cancel()
+    if (::speechApi.isInitialized) speechApi.cancel()
     routeLineApi.cancel()
     routeLineView.cancel()
-    speechApi.cancel()
+
     voiceInstructionsPlayer?.shutdown()
+    voiceInstructionsPlayer = null
+
+    binding.mapView.location.enabled = false
+    binding.mapView.onStop()
+    binding.mapView.onDestroy()
+
     mapboxNavigation = null
     MapboxNavigationProvider.destroy()
-    Log.d(TAG, "MapView onPause and onStop called, observers unregistered")
+
+    reactContext.removeLifecycleEventListener(this)
+    implementation = null
+
+    Log.d(TAG, "NavigationView fully cleaned up")
   }
 
   /**
@@ -458,7 +487,7 @@ class NavigationView(context: ThemedReactContext, private val implementation: Hy
     voiceInstructionsPlayer = MapboxVoiceInstructionsPlayer(context, locale.language)
     binding.stop.setOnClickListener {
       Log.d(TAG, "Stop button clicked")
-      implementation.onCancel?.invoke()
+      implementation?.onCancel?.invoke()
       mapboxNavigation?.stopTripSession()
     }
     binding.recenter.setOnClickListener {
@@ -628,7 +657,7 @@ class NavigationView(context: ThemedReactContext, private val implementation: Hy
       return
     }
     Log.d(TAG, "Arrived at destination, leg index: ${leg.legIndex}")
-    implementation.onWaypointArrival?.invoke(
+    implementation?.onWaypointArrival?.invoke(
       WaypointEvent(
         index = legIndex.toDouble(),
         latitude = latitude,
@@ -647,7 +676,7 @@ class NavigationView(context: ThemedReactContext, private val implementation: Hy
     Log.d(TAG, "Arrived at final destination")
     val longitude = routeProgress.currentLegProgress?.legDestination?.location?.latitude() ?: 0.0
     val latitude = routeProgress.currentLegProgress?.legDestination?.location?.latitude() ?: 0.0
-    implementation.onArrival?.invoke(
+    implementation?.onArrival?.invoke(
       Coordinate(
         latitude = latitude,
         longitude = longitude
@@ -661,7 +690,7 @@ class NavigationView(context: ThemedReactContext, private val implementation: Hy
    */
   fun sendErrorToJS(error: String) {
     Log.e(TAG, "Error: $error")
-    implementation.onError?.invoke(
+    implementation?.onError?.invoke(
       Message(error)
     )
   }
