@@ -1,3 +1,16 @@
+# [0.10.0](https://github.com/atoui-zahreddine/rn-nitro-mapbox-navigation/compare/v0.9.0...v0.10.0) (2026-05-05)
+
+
+### Bug Fixes
+
+* commit debug keystore for CI Android builds ([7971ec3](https://github.com/atoui-zahreddine/rn-nitro-mapbox-navigation/commit/7971ec36c75f6bd915cf52a9a44fe289629615d7))
+* restore missing PBXGroup in iOS example project ([1450621](https://github.com/atoui-zahreddine/rn-nitro-mapbox-navigation/commit/1450621ce744716b3c63a7b8927384172c8826f5))
+
+
+### Features
+
+* implement lifecycle event handling in NavigationView ([29fa086](https://github.com/atoui-zahreddine/rn-nitro-mapbox-navigation/commit/29fa086b7f21f093d4e52a882ae8a85fe69d8585))
+
 # [0.9.0](https://github.com/atoui-zahreddine/rn-nitro-mapbox-navigation/compare/v0.8.0...v0.9.0) (2026-03-09)
 
 
