@@ -11387,18 +11387,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nitrogen@npm:^0.35.0":
-  version: 0.35.0
-  resolution: "nitrogen@npm:0.35.0"
+"nitrogen@npm:^0.35.6":
+  version: 0.35.6
+  resolution: "nitrogen@npm:0.35.6"
   dependencies:
     chalk: ^5.3.0
-    react-native-nitro-modules: ^0.35.0
+    react-native-nitro-modules: ^0.35.6
     ts-morph: ^27.0.0
     yargs: ^18.0.0
     zod: ^4.0.5
   bin:
     nitrogen: lib/index.js
-  checksum: d99d27ff6c5cacf1acaf11aa21ee58b401b1d185086b103a6cc26e92433505e4aef93b8a8281b21f872f219d8ad7a96412ac28c36894542a709eebb86e523fc3
+  checksum: 105ff9cf455c3c12def88181e37d2b681b5b50dc891a725db9e36e16695809f9c80056b60bc94d19dfaf7bf71c77820660f7ac9f29f9e5b7ed3e5c2e0a5e8d8a
   languageName: node
   linkType: hard
 
@@ -12788,13 +12788,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-nitro-modules@npm:0.35.0, react-native-nitro-modules@npm:^0.35.0":
-  version: 0.35.0
-  resolution: "react-native-nitro-modules@npm:0.35.0"
+"react-native-nitro-modules@npm:0.35.6, react-native-nitro-modules@npm:^0.35.6":
+  version: 0.35.6
+  resolution: "react-native-nitro-modules@npm:0.35.6"
   peerDependencies:
     react: "*"
     react-native: "*"
-  checksum: f006daa1aa58f1a0165a4d6fc087c8d190f2857a7acfd6b47080e5979f05beb20455ed3c66831d489df4eb57d2f430d1610094ed4d6ae3946e17d83362161aa6
+  checksum: b057dc606c4717bff2447cff3efdeebf5cd7342fa11b3f51cfd420ccce1224d0b4be5999ea63c9856721520f1cbb50fba9372109f49a4c8b14202d7ab4d3b37e
   languageName: node
   linkType: hard
 
@@ -13313,7 +13313,7 @@ __metadata:
     react-native: 0.79.2
     react-native-builder-bob: ^0.40.17
     react-native-monorepo-config: ^0.1.9
-    react-native-nitro-modules: ^0.35.0
+    react-native-nitro-modules: ^0.35.6
     rn-nitro-mapbox-navigation: "workspace:^"
   languageName: unknown
   linkType: soft
@@ -13344,12 +13344,12 @@ __metadata:
     eslint-plugin-prettier: ^5.2.3
     expo-module-scripts: ^4.1.9
     jest: ^29.7.0
-    nitrogen: ^0.35.0
+    nitrogen: ^0.35.6
     prettier: ^3.0.3
     react: 19.0.0
     react-native: 0.79.2
     react-native-builder-bob: ^0.40.17
-    react-native-nitro-modules: 0.35.0
+    react-native-nitro-modules: 0.35.6
     semantic-release: ^22.0.0
     turbo: ^1.10.7
     typedoc: ^0.28.8
