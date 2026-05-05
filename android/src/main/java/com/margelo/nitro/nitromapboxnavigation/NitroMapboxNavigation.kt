@@ -92,7 +92,7 @@ class HybridNitroMapboxNavigation(val context: ThemedReactContext) : HybridNitro
 
   override fun afterUpdate() {
     super.afterUpdate()
-    (view as NavigationView).initNavigation()
+    (view as NavigationView).onPropsUpdated()
   }
 
 }

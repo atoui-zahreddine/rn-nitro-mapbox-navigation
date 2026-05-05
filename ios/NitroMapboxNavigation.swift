@@ -67,8 +67,12 @@ class HybridNitroMapboxNavigation: HybridNitroMapboxNavigationSpec,
   internal var onArrival: ((Coordinate) -> Void)? = nil
 
 
-  var origin: Coordinate = Coordinate(latitude: 0, longitude: 0)
-  var destination: Coordinate = Coordinate(latitude: 0, longitude: 0)
+  var origin: Coordinate = Coordinate(latitude: 0, longitude: 0) {
+    didSet { routeNeedsUpdate = true }
+  }
+  var destination: Coordinate = Coordinate(latitude: 0, longitude: 0) {
+    didSet { routeNeedsUpdate = true }
+  }
   var destinationTitle: String?
   var language: String?
   var mute: Bool?
@@ -77,13 +81,19 @@ class HybridNitroMapboxNavigation: HybridNitroMapboxNavigationSpec,
   var showCancelButton: Bool?
   var hideStatusView: Bool?
   var distanceUnit: DistanceUnitEnum?
-  var travelMode: TravelModeEnum?
-  var waypoints: [Waypoint]?
+  var travelMode: TravelModeEnum? {
+    didSet { routeNeedsUpdate = true }
+  }
+  var waypoints: [Waypoint]? {
+    didSet { routeNeedsUpdate = true }
+  }
 
   public weak var navViewController: NavigationViewController?
 
   var embedded: Bool = false
   var embedding: Bool = false
+  var isInitialized: Bool = false
+  var routeNeedsUpdate: Bool = false
 
   public func dismissNavigationViewController() {
     self.navViewController?.dismiss(
@@ -96,11 +106,31 @@ class HybridNitroMapboxNavigation: HybridNitroMapboxNavigationSpec,
   }
 
   func afterUpdate() {
-    if (embedding) {
+    if embedding {
       return
     }
 
-    embed()
+    if !isInitialized {
+      isInitialized = true
+      embed()
+      return
+    }
+
+    if routeNeedsUpdate {
+      routeNeedsUpdate = false
+      embed()
+    } else {
+      applyInPlaceProps()
+    }
+  }
+
+  func applyInPlaceProps() {
+    NavigationSettings.shared.voiceMuted = mute ?? false
+    NavigationSettings.shared.distanceUnit =
+      distanceUnit?.stringValue == "imperial" ? .mile : .kilometer
+    guard let vc = navViewController else { return }
+    vc.showsEndOfRouteFeedback = showsEndOfRouteFeedback ?? true
+    StatusView.appearance().isHidden = hideStatusView ?? false
   }
 
   public func embed() {
@@ -155,7 +185,9 @@ class HybridNitroMapboxNavigation: HybridNitroMapboxNavigationSpec,
       case .success(let response):
         let navigationOptions = NavigationOptions(
           simulationMode: strongSelf.shouldSimulateRoute ?? false ? .always : .never)
-        strongSelf.dismissNavigationViewController()
+        strongSelf.navViewController?.view.removeFromSuperview()
+        strongSelf.navViewController?.removeFromParent()
+        strongSelf.navViewController = nil
         let vc = NavigationViewController(for: response, navigationOptions: navigationOptions)
         vc.showsEndOfRouteFeedback = strongSelf.showsEndOfRouteFeedback ?? true
         StatusView.appearance().isHidden = strongSelf.hideStatusView ?? false

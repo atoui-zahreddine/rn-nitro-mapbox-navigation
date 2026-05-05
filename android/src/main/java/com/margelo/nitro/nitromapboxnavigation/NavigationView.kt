@@ -222,12 +222,12 @@ class NavigationView(context: ThemedReactContext, private var implementation: Hy
 
       if (!firstLocationUpdateReceived) {
         firstLocationUpdateReceived = true
-        navigationCamera.requestNavigationCameraToOverview(
+        navigationCamera.requestNavigationCameraToFollowing(
           stateTransitionOptions = NavigationCameraTransitionOptions.Builder()
             .maxDuration(0)
             .build()
         )
-        Log.d(TAG, "First location update, camera set to overview")
+        Log.d(TAG, "First location update, camera set to following")
       }
 
       implementation?.onLocationChange?.invoke(
@@ -402,6 +402,8 @@ class NavigationView(context: ThemedReactContext, private var implementation: Hy
     cleanup()
   }
 
+  private var isInitialized = false
+  var routeNeedsUpdate = false
   private var isCleanedUp = false
 
   private fun cleanup() {
@@ -437,13 +439,22 @@ class NavigationView(context: ThemedReactContext, private var implementation: Hy
     Log.d(TAG, "NavigationView fully cleaned up")
   }
 
-  /**
-   * Initializes the navigation UI and components.
-   * Sets up camera behaviors, UI padding, distance formatter, and API instances.
-   * Attaches click listeners for navigation controls.
-   */
+  fun onPropsUpdated() {
+    if (!isInitialized) {
+      isInitialized = true
+      setup()
+      fetchRoute()
+      return
+    }
+
+    if (routeNeedsUpdate) {
+      routeNeedsUpdate = false
+      fetchRoute()
+    }
+  }
+
   @SuppressLint("MissingPermission")
-  fun initNavigation() {
+  private fun setup() {
     binding.mapView.camera.addCameraAnimationsLifecycleListener(
       NavigationBasicGesturesHandler(navigationCamera)
     )
@@ -485,6 +496,7 @@ class NavigationView(context: ThemedReactContext, private var implementation: Hy
     )
     speechApi = MapboxSpeechApi(context, locale.language)
     voiceInstructionsPlayer = MapboxVoiceInstructionsPlayer(context, locale.language)
+
     binding.stop.setOnClickListener {
       Log.d(TAG, "Stop button clicked")
       implementation?.onCancel?.invoke()
@@ -513,21 +525,13 @@ class NavigationView(context: ThemedReactContext, private var implementation: Hy
       voiceInstructionsPlayer?.volume(SpeechVolume(1f))
     }
 
-    startNavigation()
-  }
-
-  /**
-   * Starts the navigation process.
-   * Checks for origin and destination, sets map camera, enables location puck, and initiates route finding.
-   */
-  fun startNavigation() {
     if (origin == null || destination == null) {
       Log.w(TAG, "Origin or destination missing")
       return
     }
     Log.d(
       TAG,
-      "starting navigation with origin: ${origin?.latitude()}, ${origin?.longitude()}, destination: ${destination?.latitude()}, ${destination?.longitude()}"
+      "Setting up navigation with origin: ${origin?.latitude()}, ${origin?.longitude()}, destination: ${destination?.latitude()}, ${destination?.longitude()}"
     )
 
     binding.mapView.mapboxMap.setCamera(
@@ -546,7 +550,13 @@ class NavigationView(context: ThemedReactContext, private var implementation: Hy
       enabled = true
       Log.d(TAG, "Location puck enabled")
     }
-    startRoute()
+
+    mapboxNavigation?.registerRoutesObserver(routesObserver)
+    mapboxNavigation?.registerArrivalObserver(arrivalObserver)
+    mapboxNavigation?.registerRouteProgressObserver(routeProgressObserver)
+    mapboxNavigation?.registerLocationObserver(locationObserver)
+    mapboxNavigation?.registerVoiceInstructionsObserver(voiceInstructionsObserver)
+    Log.d(TAG, "Navigation observers registered")
   }
 
   /**
@@ -623,16 +633,11 @@ class NavigationView(context: ThemedReactContext, private var implementation: Hy
     Log.d(TAG, "Navigation started with ${routes.size} routes")
   }
 
-  /**
-   * Registers all necessary navigation observers and initiates route finding.
-   */
-  private fun startRoute() {
-    mapboxNavigation?.registerRoutesObserver(routesObserver)
-    mapboxNavigation?.registerArrivalObserver(arrivalObserver)
-    mapboxNavigation?.registerRouteProgressObserver(routeProgressObserver)
-    mapboxNavigation?.registerLocationObserver(locationObserver)
-    mapboxNavigation?.registerVoiceInstructionsObserver(voiceInstructionsObserver)
-    Log.d(TAG, "Navigation observers registered")
+  private fun fetchRoute() {
+    if (origin == null || destination == null) {
+      Log.w(TAG, "Cannot fetch route: origin or destination missing")
+      return
+    }
 
     val coordinatesList = mutableListOf<Point>()
     origin?.let { coordinatesList.add(it) }
@@ -699,11 +704,13 @@ class NavigationView(context: ThemedReactContext, private var implementation: Hy
 
   fun setOrigin(origin: Point?) {
     this.origin = origin
+    routeNeedsUpdate = true
     Log.d(TAG, "Origin set: $origin")
   }
 
   fun setDestination(destination: Point?) {
     this.destination = destination
+    routeNeedsUpdate = true
     Log.d(TAG, "Destination set: $destination")
   }
 
@@ -719,6 +726,7 @@ class NavigationView(context: ThemedReactContext, private var implementation: Hy
 
   fun setWaypoints(waypoints: List<Point>) {
     this.waypoints = waypoints
+    routeNeedsUpdate = true
     Log.d(TAG, "Waypoints set: $waypoints")
   }
 
@@ -744,6 +752,7 @@ class NavigationView(context: ThemedReactContext, private var implementation: Hy
       "driving-traffic" -> DirectionsCriteria.PROFILE_DRIVING_TRAFFIC
       else -> DirectionsCriteria.PROFILE_DRIVING
     }
+    routeNeedsUpdate = true
     Log.d(TAG, "Travel mode set: $travelMode")
   }
 }
