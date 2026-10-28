@@ -1,17 +1,29 @@
 {
-  "cxxNamespace": ["nitromapboxnavigation"],
+  "cxxNamespace": [
+    "nitromapboxnavigation"
+  ],
   "ios": {
     "iosModuleName": "NitroMapboxNavigation"
   },
   "android": {
-    "androidNamespace": ["nitromapboxnavigation"],
+    "androidNamespace": [
+      "nitromapboxnavigation"
+    ],
     "androidCxxLibName": "nitromapboxnavigation"
   },
   "autolinking": {
     "NitroMapboxNavigation": {
-      "swift": "HybridNitroMapboxNavigation",
-      "kotlin": "HybridNitroMapboxNavigation"
+      "ios": {
+        "language": "swift",
+        "implementationClassName": "HybridNitroMapboxNavigation"
+      },
+      "android": {
+        "language": "kotlin",
+        "implementationClassName": "HybridNitroMapboxNavigation"
+      }
     }
   },
-  "ignorePaths": ["node_modules"]
+  "ignorePaths": [
+    "node_modules"
+  ]
 }

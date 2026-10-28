@@ -6,10 +6,12 @@ import {
   withAndroidColors,
   withGradleProperties,
   withInfoPlist,
+  withPodfile,
 } from '@expo/config-plugins';
 
 import {
   createGeneratedHeaderComment,
+  mergeContents,
   removeGeneratedContents,
   type MergeResults,
 } from './generateCode';
@@ -198,112 +200,62 @@ const withMapboxAndroid: ConfigPlugin<MapboxPlugProps> = (
   return config;
 };
 
-// const addSPMDependenciesToMainTarget = (
-//   config: ExpoConfig,
-//   options: {
-//     version: string;
-//     repositoryUrl: string;
-//     repoName: string;
-//     products: string[];
-//   }
-// ) => {
-//   return withXcodeProject(config, (config) => {
-//     const { version, repositoryUrl, repoName, products } = options;
-//     const xcodeProject = config.modResults;
-//
-//     // Step 1: Add XCRemoteSwiftPackageReference
-//     if (!xcodeProject.hash.project.objects['XCRemoteSwiftPackageReference']) {
-//       xcodeProject.hash.project.objects['XCRemoteSwiftPackageReference'] = {};
-//     }
-//
-//     const packageReferenceUUID = xcodeProject.generateUuid();
-//     xcodeProject.hash.project.objects['XCRemoteSwiftPackageReference'][
-//       `${packageReferenceUUID} /* XCRemoteSwiftPackageReference "${repoName}" */`
-//     ] = {
-//       isa: 'XCRemoteSwiftPackageReference',
-//       repositoryURL: repositoryUrl,
-//       requirement: {
-//         kind: 'upToNextMajorVersion',
-//         minimumVersion: version,
-//       },
-//     };
-//
-//     // Step 2: Add XCSwiftPackageProductDependency for each product
-//     if (!xcodeProject.hash.project.objects['XCSwiftPackageProductDependency']) {
-//       xcodeProject.hash.project.objects['XCSwiftPackageProductDependency'] = {};
-//     }
-//
-//     const productUUIDs: string[] = [];
-//     products.forEach((productName) => {
-//       const productUUID = xcodeProject.generateUuid();
-//       productUUIDs.push(productUUID);
-//       xcodeProject.hash.project.objects['XCSwiftPackageProductDependency'][
-//         `${productUUID} /* ${productName} */`
-//       ] = {
-//         isa: 'XCSwiftPackageProductDependency',
-//         package: `${packageReferenceUUID} /* XCRemoteSwiftPackageReference "${repoName}" */`,
-//         productName: productName,
-//       };
-//     });
-//
-//     // Step 3: Update PBXProject packageReferences
-//     const projectId = Object.keys(
-//       xcodeProject.hash.project.objects['PBXProject']
-//     )[0];
-//
-//     if (!projectId) {
-//       throw new Error('Could not find PBXProject');
-//     }
-//
-//     const project = xcodeProject.hash.project.objects['PBXProject'][projectId];
-//     if (!project.packageReferences) {
-//       project.packageReferences = [];
-//     }
-//
-//     project.packageReferences.push(
-//       `${packageReferenceUUID} /* XCRemoteSwiftPackageReference "${repoName}" */`
-//     );
-//
-//     // Step 4: Add PBXBuildFile for each product
-//     const buildFileUUIDs: string[] = [];
-//     products.forEach((productName, index) => {
-//       const buildFileUUID = xcodeProject.generateUuid();
-//       buildFileUUIDs.push(buildFileUUID);
-//       xcodeProject.hash.project.objects['PBXBuildFile'][
-//         `${buildFileUUID} /* ${productName} in Frameworks */`
-//       ] = {
-//         isa: 'PBXBuildFile',
-//         productRef: `${productUUIDs[index]} /* ${productName} */`,
-//       };
-//     });
-//
-//     // Step 5: Update PBXFrameworksBuildPhase
-//     const frameworksBuildPhases =
-//       xcodeProject.hash.project.objects['PBXFrameworksBuildPhase'];
-//     const buildPhaseId = Object.keys(frameworksBuildPhases)[0];
-//
-//     if (!buildPhaseId) {
-//       throw new Error('Could not find PBXFrameworksBuildPhase');
-//     }
-//
-//     const buildPhase = frameworksBuildPhases[buildPhaseId];
-//     if (!buildPhase.files) {
-//       buildPhase.files = [];
-//     }
-//
-//     buildFileUUIDs.forEach((buildFileUUID, index) => {
-//       buildPhase.files.push(
-//         `${buildFileUUID} /* ${products[index]} in Frameworks */`
-//       );
-//     });
-//
-//     return config;
-//   });
-// };
+export const addMapboxSPM = (src: string, withMaps: boolean): string => {
+  const setup = [
+    `require File.join(File.dirname(Pod::Executable.execute_command('node', ['--print', "require.resolve('rn-nitro-mapbox-navigation/package.json')"]).strip), 'ios/mapbox_dependencies')`,
+    ...(withMaps ? ['NitroMapboxNavigation.configure_maps'] : []),
+  ].join('\n');
+  let contents = mergeContents({
+    src,
+    newSrc: setup,
+    tag: 'nitro-mapbox-spm-setup',
+    anchor: /^prepare_react_native_project!/m,
+    offset: 0,
+    comment: '#',
+  }).contents;
+  contents =
+    removeGeneratedContents(contents, 'nitro-mapbox-spm-embed') ?? contents;
+  const reactPostInstall =
+    contents.match(/^[ \t]*react_native_post_install\([^\n]*\)[ \t]*$/m) ??
+    contents.match(
+      /^[ \t]*react_native_post_install\([\s\S]*?^[ \t]*\)[ \t]*$/m
+    );
+  if (!reactPostInstall) {
+    throw new Error(
+      'Mapbox SPM requires a react_native_post_install call in the Podfile.'
+    );
+  }
+  contents = mergeContents({
+    src: contents,
+    newSrc: '    NitroMapboxNavigation.post_install(installer)',
+    tag: 'nitro-mapbox-spm-embed',
+    anchor: /^[ \t]*react_native_post_install\(/m,
+    offset: reactPostInstall[0].split('\n').length,
+    comment: '#',
+  }).contents;
+  return contents;
+};
+
 const withMapboxIOS: ConfigPlugin<MapboxPlugProps> = (
   config,
   { mapboxPublicToken }
 ) => {
+  config = withPodfile(config, (podfileConfig) => {
+    let withMaps = false;
+    try {
+      require.resolve('@rnmapbox/maps/package.json', {
+        paths: [podfileConfig.modRequest.projectRoot],
+      });
+      withMaps = true;
+    } catch {
+      // The navigation view also works without @rnmapbox/maps.
+    }
+    podfileConfig.modResults.contents = addMapboxSPM(
+      podfileConfig.modResults.contents,
+      withMaps
+    );
+    return podfileConfig;
+  });
   config = withInfoPlist(config, (iosConfig) => {
     if (!mapboxPublicToken) {
       WarningAggregator.addWarningIOS(

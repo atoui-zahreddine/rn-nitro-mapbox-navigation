@@ -1,5 +1,5 @@
 {
   "plugin": ["typedoc-plugin-markdown"],
-  "entryPoints": ["lib/typescript/src/index.d.ts"],
+  "entryPoints": ["src/index.tsx"],
   "out": "./docs"
 }

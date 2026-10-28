@@ -6,10 +6,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 React Native library (`rn-nitro-mapbox-navigation`) that wraps Mapbox Navigation SDK to provide a full turn-by-turn navigation view component. Built with **Nitro Modules** (not the legacy bridge or TurboModules). New Architecture (Fabric) only — no Old Architecture support.
 
-- **iOS**: MapboxNavigation 2.20.1 via CocoaPods (Swift)
+- **iOS**: Mapbox Navigation 3.33.1 (`MapboxNavigationCore` and `MapboxNavigationUIKit`), Maps 11.33.1 via React Native's `spm_dependency` helper alongside CocoaPods (Swift)
 - **Android**: Mapbox Navigation 3.12.2 via Gradle (Kotlin + C++ JNI bridge)
 - **Package manager**: Yarn 3.6.1 (Berry). Do not use npm.
-- **Node**: v22 (see `.nvmrc`)
+- **Node**: v24 (see `.nvmrc`)
 
 ## Repository Structure
 
@@ -68,7 +68,9 @@ When modifying the API, edit the `.nitro.ts` file then run `yarn nitrogen` to re
 
 ### Native Implementations
 
-**iOS** (`ios/NitroMapboxNavigation.swift`): `HybridNitroMapboxNavigation` extends the generated spec. Uses `NavigationViewController` from MapboxNavigation. A `CustomUIView` subclass handles cleanup. The `embed()` method calculates routes via `Directions.shared.calculateRoutes()` and embeds the navigation UI.
+**iOS** (`ios/NitroMapboxNavigation.swift`): `HybridNitroMapboxNavigation` extends the generated spec. A shared `MapboxNavigationProvider` owns the v3 core, routing, voice, and events. Routes come from `routingProvider().calculateRoutes(options:)` and are displayed by `NavigationViewController(navigationRoutes:navigationOptions:)` with the SDK's default banners. `NavigationContainerView` manages embedding and cleanup; transient UIKit window detachment must not stop guidance. Route changes update the existing trip session. Keep the single day style selected for this integration.
+
+When changing iOS navigation, follow Mapbox's [v3 UI guide](https://docs.mapbox.com/ios/navigation/guides/turn-by-turn-navigation/user-interface/) and [v3 migration guide](https://docs.mapbox.com/ios/navigation/v3/guides/migrate-to-v3-ui/). `NavigationViewController` remains the supported v3 drop-in UI; do not reintroduce v2 `NavigationService`, `NavigationSettings.shared`, or `Directions.shared` routing.
 
 **Android** (`android/src/main/java/.../NavigationView.kt`): The main implementation. Extends `FrameLayout` with `ViewBinding` (`navigation_view.xml`). Manages `MapboxNavigation`, camera, route rendering, maneuver view, trip progress card, voice instructions, and all navigation observers.
 

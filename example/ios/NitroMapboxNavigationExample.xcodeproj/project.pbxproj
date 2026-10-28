@@ -9,24 +9,55 @@
 /* Begin PBXBuildFile section */
 		0C80B921A6F3F58F76C31292 /* libPods-NitroMapboxNavigationExample.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DCACB8F33CDC322A6C60F78 /* libPods-NitroMapboxNavigationExample.a */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
+		18DE62878BAC13D46A49592E /* MapboxNavigationNative.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5E655B8E7D1BC2537C4F52C /* MapboxNavigationNative.framework */; };
+		25BB1BDD8D783EA5786498BA /* MapboxNavigationNative.framework in Embed Mapbox SPM Frameworks */ = {isa = PBXBuildFile; fileRef = B5E655B8E7D1BC2537C4F52C /* MapboxNavigationNative.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		3E5488821B3ECAB6071CABAD /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */; };
+		5BA5105AB2C20BEC1E426BAD /* MapboxCoreMaps.framework in Embed Mapbox SPM Frameworks */ = {isa = PBXBuildFile; fileRef = 4B15317237E50CEAB8D20822 /* MapboxCoreMaps.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		622B754E4116E8EEE8E96DF7 /* Turf.framework in Embed Mapbox SPM Frameworks */ = {isa = PBXBuildFile; fileRef = EF3AD855A00079F16A8BDAA9 /* Turf.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		63C22EAF32E9FD4A84E13490 /* MapboxCommon.framework in Embed Mapbox SPM Frameworks */ = {isa = PBXBuildFile; fileRef = 3F6492B9DEBCA4CFD11D8F15 /* MapboxCommon.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		63EDC3D1B8E46FC898776B67 /* libPods-NitroMapboxNavigationExample.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 490C7007B69B6BA0CB5BA380 /* libPods-NitroMapboxNavigationExample.a */; };
 		761780ED2CA45674006654EE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761780EC2CA45674006654EE /* AppDelegate.swift */; };
+		761780EF2CA45674006654EF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761780EE2CA45674006654EF /* SceneDelegate.swift */; };
+		7DA0C9EBDCB0E2BACF521BB1 /* MapboxCoreMaps.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B15317237E50CEAB8D20822 /* MapboxCoreMaps.framework */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		C853B232653F0D256E3E83FE /* Turf.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF3AD855A00079F16A8BDAA9 /* Turf.framework */; };
+		DA89D487A1E2C92E575584D3 /* MapboxCommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F6492B9DEBCA4CFD11D8F15 /* MapboxCommon.framework */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		657721D44CC0C22DEE7AF6C6 /* Embed Mapbox SPM Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				63C22EAF32E9FD4A84E13490 /* MapboxCommon.framework in Embed Mapbox SPM Frameworks */,
+				5BA5105AB2C20BEC1E426BAD /* MapboxCoreMaps.framework in Embed Mapbox SPM Frameworks */,
+				25BB1BDD8D783EA5786498BA /* MapboxNavigationNative.framework in Embed Mapbox SPM Frameworks */,
+				622B754E4116E8EEE8E96DF7 /* Turf.framework in Embed Mapbox SPM Frameworks */,
+			);
+			name = "Embed Mapbox SPM Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		13B07F961A680F5B00A75B9A /* NitroMapboxNavigationExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NitroMapboxNavigationExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = NitroMapboxNavigationExample/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = PrivacyInfo.xcprivacy; path = NitroMapboxNavigationExample/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		3B4392A12AC88292D35C810B /* Pods-NitroMapboxNavigationExample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NitroMapboxNavigationExample.debug.xcconfig"; path = "Target Support Files/Pods-NitroMapboxNavigationExample/Pods-NitroMapboxNavigationExample.debug.xcconfig"; sourceTree = "<group>"; };
+		3F6492B9DEBCA4CFD11D8F15 /* MapboxCommon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = MapboxCommon.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		490C7007B69B6BA0CB5BA380 /* libPods-NitroMapboxNavigationExample.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-NitroMapboxNavigationExample.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4B15317237E50CEAB8D20822 /* MapboxCoreMaps.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = MapboxCoreMaps.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5709B34CF0A7D63546082F79 /* Pods-NitroMapboxNavigationExample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NitroMapboxNavigationExample.release.xcconfig"; path = "Target Support Files/Pods-NitroMapboxNavigationExample/Pods-NitroMapboxNavigationExample.release.xcconfig"; sourceTree = "<group>"; };
 		5DCACB8F33CDC322A6C60F78 /* libPods-NitroMapboxNavigationExample.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-NitroMapboxNavigationExample.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		761780EC2CA45674006654EE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = NitroMapboxNavigationExample/AppDelegate.swift; sourceTree = "<group>"; };
+		761780EE2CA45674006654EF /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SceneDelegate.swift; path = NitroMapboxNavigationExample/SceneDelegate.swift; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = NitroMapboxNavigationExample/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A1B2C3D4E5F60718293A4B5C /* Config.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Config.debug.xcconfig; sourceTree = "<group>"; };
 		A1B2C3D4E5F60718293A4B5D /* Config.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Config.release.xcconfig; sourceTree = "<group>"; };
+		B5E655B8E7D1BC2537C4F52C /* MapboxNavigationNative.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = MapboxNavigationNative.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		EF3AD855A00079F16A8BDAA9 /* Turf.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Turf.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -36,6 +67,10 @@
 			files = (
 				0C80B921A6F3F58F76C31292 /* libPods-NitroMapboxNavigationExample.a in Frameworks */,
 				63EDC3D1B8E46FC898776B67 /* libPods-NitroMapboxNavigationExample.a in Frameworks */,
+				DA89D487A1E2C92E575584D3 /* MapboxCommon.framework in Frameworks */,
+				7DA0C9EBDCB0E2BACF521BB1 /* MapboxCoreMaps.framework in Frameworks */,
+				18DE62878BAC13D46A49592E /* MapboxNavigationNative.framework in Frameworks */,
+				C853B232653F0D256E3E83FE /* Turf.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -46,6 +81,7 @@
 			isa = PBXGroup;
 			children = (
 				761780EC2CA45674006654EE /* AppDelegate.swift */,
+				761780EE2CA45674006654EF /* SceneDelegate.swift */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */,
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
@@ -62,6 +98,7 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				BBD78D7AC51CEA395F1C20DB /* Pods */,
 				A8AE25F95D48C4C37F771E3F /* Frameworks */,
+				BC1F85EEF5139AE955DA5D96 /* Mapbox SPM Frameworks */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -93,6 +130,17 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		BC1F85EEF5139AE955DA5D96 /* Mapbox SPM Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				3F6492B9DEBCA4CFD11D8F15 /* MapboxCommon.framework */,
+				4B15317237E50CEAB8D20822 /* MapboxCoreMaps.framework */,
+				B5E655B8E7D1BC2537C4F52C /* MapboxNavigationNative.framework */,
+				EF3AD855A00079F16A8BDAA9 /* Turf.framework */,
+			);
+			name = "Mapbox SPM Frameworks";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -107,6 +155,7 @@
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				00EEFC60759A1932668264C0 /* [CP] Embed Pods Frameworks */,
 				E235C05ADACE081382539298 /* [CP] Copy Pods Resources */,
+				657721D44CC0C22DEE7AF6C6 /* Embed Mapbox SPM Frameworks */,
 			);
 			buildRules = (
 			);
@@ -242,6 +291,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				761780ED2CA45674006654EE /* AppDelegate.swift in Sources */,
+				761780EF2CA45674006654EF /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -382,6 +432,7 @@
 					"$(inherited)",
 					" ",
 				);
+				PODFILE_DIR = "$(SRCROOT)";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) DEBUG";
@@ -460,6 +511,7 @@
 					"$(inherited)",
 					" ",
 				);
+				PODFILE_DIR = "$(SRCROOT)";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				SWIFT_ENABLE_EXPLICIT_MODULES = NO;

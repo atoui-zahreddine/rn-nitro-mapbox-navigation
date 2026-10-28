@@ -24,6 +24,10 @@ export default defineConfig([
     },
   },
   {
+    files: ['scripts/ios-compat/*.{js,mjs}', 'src/__tests__/*.test.js'],
+    languageOptions: { ecmaVersion: 'latest' },
+  },
+  {
     ignores: ['node_modules/', 'lib/'],
   },
 ]);

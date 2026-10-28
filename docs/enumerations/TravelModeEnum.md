@@ -6,7 +6,7 @@
 
 # Enumeration: TravelModeEnum
 
-Defined in: NitroMapboxNavigation.nitro.d.ts:42
+Defined in: [NitroMapboxNavigation.nitro.ts:53](https://github.com/atoui-zahreddine/react-native-mapbox-turn-by-turn-navigation/blob/391ddc8f3e0d28da89de7d15255e04caf6b0feef/src/NitroMapboxNavigation.nitro.ts#L53)
 
 ## Enumeration Members
 
@@ -14,7 +14,7 @@ Defined in: NitroMapboxNavigation.nitro.d.ts:42
 
 > **CYCLING**: `"cycling"`
 
-Defined in: NitroMapboxNavigation.nitro.d.ts:45
+Defined in: [NitroMapboxNavigation.nitro.ts:56](https://github.com/atoui-zahreddine/react-native-mapbox-turn-by-turn-navigation/blob/391ddc8f3e0d28da89de7d15255e04caf6b0feef/src/NitroMapboxNavigation.nitro.ts#L56)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: NitroMapboxNavigation.nitro.d.ts:45
 
 > **DRIVING**: `"driving"`
 
-Defined in: NitroMapboxNavigation.nitro.d.ts:43
+Defined in: [NitroMapboxNavigation.nitro.ts:54](https://github.com/atoui-zahreddine/react-native-mapbox-turn-by-turn-navigation/blob/391ddc8f3e0d28da89de7d15255e04caf6b0feef/src/NitroMapboxNavigation.nitro.ts#L54)
 
 ***
 
@@ -30,7 +30,7 @@ Defined in: NitroMapboxNavigation.nitro.d.ts:43
 
 > **DRIVING\_TRAFFIC**: `"driving-traffic"`
 
-Defined in: NitroMapboxNavigation.nitro.d.ts:46
+Defined in: [NitroMapboxNavigation.nitro.ts:57](https://github.com/atoui-zahreddine/react-native-mapbox-turn-by-turn-navigation/blob/391ddc8f3e0d28da89de7d15255e04caf6b0feef/src/NitroMapboxNavigation.nitro.ts#L57)
 
 ***
 
@@ -38,4 +38,4 @@ Defined in: NitroMapboxNavigation.nitro.d.ts:46
 
 > **WALKING**: `"walking"`
 
-Defined in: NitroMapboxNavigation.nitro.d.ts:44
+Defined in: [NitroMapboxNavigation.nitro.ts:55](https://github.com/atoui-zahreddine/react-native-mapbox-turn-by-turn-navigation/blob/391ddc8f3e0d28da89de7d15255e04caf6b0feef/src/NitroMapboxNavigation.nitro.ts#L55)
