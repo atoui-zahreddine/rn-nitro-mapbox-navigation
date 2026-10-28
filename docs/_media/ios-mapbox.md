@@ -44,7 +44,7 @@ The example and bare fixtures gate mounting on foreground location permission. S
 
 Four Ruby tests with 14 assertions passed for package cleanup/idempotence, preservation of packages still used by other targets, a forced CocoaPods UUID collision, and exclusion of unrelated sibling app targets. The collision test failed before the helper fix: a newly created target dependency could overwrite an existing file reference. The helper now allocates unused IDs for those objects. An app's unused stale Mapbox package pins are removed on upgrades; active references are preserved.
 
-The `Mapbox consumer builds` workflow configures six iOS jobs plus one Android Maps build. It includes an unsigned device archive. No GitHub Actions execution was performed in this session.
+All seven consumer jobs passed in [GitHub Actions run 40698467897](https://github.com/atoui-zahreddine/rn-nitro-mapbox-navigation/actions/runs/40698467897): six iOS configurations and the Android Maps consumer. The bare RN 0.88.1 default job also passed its unsigned device archive check. These are current 3.33.1 checks, in addition to the earlier local matrix. The publishing step failed after those builds because type checking preceded Nitro generation; the release-only correction generates first and verifies that the tested source is unchanged outside release.yml before reusing the passing consumer evidence.
 
 ## SDK crash and remaining limits
 
@@ -60,3 +60,10 @@ Physical iPhone checks were deferred at the user's request. Dynamic-framework co
 ## Prerelease preparation
 
 The reviewed prerelease is `0.11.0-beta.1`, intended for npm's `next` tag. The manual Release workflow's prerelease mode runs the six iOS consumer configurations and Android consumer build before publishing with the existing trusted publisher. Stable `latest` is not changed. Publication and CI completion must be confirmed from the workflow and registry; preparing this configuration alone is not evidence of either.
+
+
+## Publication
+
+The [release-only run 40708495787](https://github.com/atoui-zahreddine/rn-nitro-mapbox-navigation/actions/runs/40708495787) passed and npm accepted `rn-nitro-mapbox-navigation@0.11.0-beta.1` under `next` at 14:43 UTC on 28 October 2026. The published source commit is `cf1440e1d3bec19b76c2ac7e2c635a9a943f2080`. The workflow verified all seven passing consumer jobs and that only release.yml differed from their tested commit. npm signed and recorded [the provenance statement](https://search.sigstore.dev/?logIndex=3541011802).
+
+npm reported that processing could take a few minutes. Acceptance is distinct from registry availability: the first subsequent metadata requests still returned 404, so registry installation in Bumbal is pending. The original worktrees remain untouched.

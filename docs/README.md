@@ -23,6 +23,8 @@ npm install rn-nitro-mapbox-navigation react-native-nitro-modules
 
 > **Note**: `react-native-nitro-modules` is a peer dependency and is required for this library to work.
 
+The v3 integration on this branch is prerelease **0.11.0-beta.1**. Install `rn-nitro-mapbox-navigation@0.11.0-beta.1` to use the configuration below. The stable `latest` tag remains **0.10.0**.
+
 ### iOS dependencies
 
 iOS uses Mapbox Navigation **3.33.1**, Mapbox Maps **11.33.1**, and Nitro Modules **0.37.1**. The example uses React Native **0.88.1**, React **19.3.1**, and Node **24**.
