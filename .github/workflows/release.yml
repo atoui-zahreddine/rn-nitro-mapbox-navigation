@@ -11,8 +11,13 @@ on:
         description: Publish the checked-in prerelease version under the next tag after consumer checks
         type: boolean
         default: false
+      consumer_validation_run:
+        description: Optional completed Release run whose consumer builds passed (only release.yml may differ)
+        type: string
+        default: ''
 
 permissions:
+  actions: read
   contents: write
   issues: write
   pull-requests: write
@@ -45,12 +50,55 @@ jobs:
         run: yarn semantic-release
 
   prerelease-checks:
-    if: github.event_name == 'workflow_dispatch' && inputs.prerelease
+    if: github.event_name == 'workflow_dispatch' && inputs.prerelease && !inputs.consumer_validation_run
     uses: ./.github/workflows/ios-compatibility.yml
 
+  reuse-consumer-checks:
+    if: github.event_name == 'workflow_dispatch' && inputs.prerelease && inputs.consumer_validation_run
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          fetch-depth: 0
+      - name: Verify prior consumer builds and unchanged source
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VALIDATION_RUN: ${{ inputs.consumer_validation_run }}
+        run: |
+          node - <<'JS'
+          const { execFileSync } = require('node:child_process');
+          const repository = process.env.GITHUB_REPOSITORY;
+          const id = process.env.VALIDATION_RUN;
+          if (!/^\d+$/.test(id)) throw new Error('Invalid consumer validation run ID.');
+          const api = (path) => JSON.parse(execFileSync('gh', ['api', `repos/${repository}/${path}`], { encoding: 'utf8' }));
+          const run = api(`actions/runs/${id}`);
+          if (run.status !== 'completed' || run.event !== 'workflow_dispatch' ||
+              run.path !== '.github/workflows/release.yml' ||
+              run.head_repository.full_name !== repository ||
+              run.head_branch !== process.env.GITHUB_REF_NAME) {
+            throw new Error('Validation must come from a completed Release run on this repository and branch.');
+          }
+          execFileSync('git', ['merge-base', '--is-ancestor', run.head_sha, process.env.GITHUB_SHA]);
+          execFileSync('git', ['diff', '--exit-code', run.head_sha, process.env.GITHUB_SHA,
+            '--', '.', ':(exclude).github/workflows/release.yml']);
+          const jobs = api(`actions/runs/${id}/jobs?per_page=100`);
+          if (jobs.total_count !== jobs.jobs.length) throw new Error('Incomplete job evidence.');
+          for (const name of ['rn-0880-default', 'rn-0881-default', 'rn-0881-static',
+            'rn-0881-maps-default', 'expo-58-maps-default', 'expo-58-maps-static',
+            'Android with latest Maps wrapper']) {
+            const job = jobs.jobs.find((job) => job.name === `prerelease-checks / ${name}`);
+            if (!job || job.status !== 'completed' || job.conclusion !== 'success') {
+              throw new Error(`Missing successful consumer build: ${name}`);
+            }
+          }
+          console.log(`Verified seven consumer builds from run ${id}; source unchanged outside release.yml.`);
+          JS
+
   prerelease:
-    if: github.event_name == 'workflow_dispatch' && inputs.prerelease
-    needs: prerelease-checks
+    if: >-
+      always() && !cancelled() && github.event_name == 'workflow_dispatch' && inputs.prerelease &&
+      (needs.prerelease-checks.result == 'success' || needs.reuse-consumer-checks.result == 'success')
+    needs: [prerelease-checks, reuse-consumer-checks]
     runs-on: ubuntu-latest
     environment: production
     steps:
@@ -73,9 +121,9 @@ jobs:
         run: |
           corepack enable
           yarn install --immutable
+          yarn prepare
           yarn lint
           yarn typecheck
           yarn test --runInBand
-          yarn prepare
       - name: Publish prerelease with trusted npm publisher
         run: npm publish --ignore-scripts --provenance --tag next
