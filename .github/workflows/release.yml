@@ -6,6 +6,11 @@ on:
       - main
       - master
   workflow_dispatch:
+    inputs:
+      prerelease:
+        description: Publish the checked-in prerelease version under the next tag after consumer checks
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -17,7 +22,7 @@ jobs:
   release:
     runs-on: ubuntu-latest
     environment: production
-    if: ${{ !contains(github.event.head_commit.message, 'skip ci') }}
+    if: ${{ !inputs.prerelease && !contains(github.event.head_commit.message, 'skip ci') }}
 
     steps:
       - name: Checkout
@@ -38,3 +43,39 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
         run: yarn semantic-release
+
+  prerelease-checks:
+    if: github.event_name == 'workflow_dispatch' && inputs.prerelease
+    uses: ./.github/workflows/ios-compatibility.yml
+
+  prerelease:
+    if: github.event_name == 'workflow_dispatch' && inputs.prerelease
+    needs: prerelease-checks
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '24'
+          package-manager-cache: false
+      - name: Validate prerelease metadata
+        run: |
+          node - <<'JS'
+          const pkg = require('./package.json');
+          if (!/^\d+\.\d+\.\d+-beta\.\d+$/.test(pkg.version)) {
+            throw new Error('The checked-in version must be an explicit beta prerelease.');
+          }
+          const repository = `git+https://github.com/${process.env.GITHUB_REPOSITORY}.git`;
+          if (pkg.repository.url !== repository) throw new Error('Repository must match the trusted publisher.');
+          JS
+      - name: Install and validate library
+        run: |
+          corepack enable
+          yarn install --immutable
+          yarn lint
+          yarn typecheck
+          yarn test --runInBand
+          yarn prepare
+      - name: Publish prerelease with trusted npm publisher
+        run: npm publish --ignore-scripts --provenance --tag next

@@ -1,0 +1,142 @@
+name: Mapbox consumer builds
+
+on:
+  workflow_dispatch:
+  workflow_call:
+  pull_request:
+    paths:
+      - 'ios/**'
+      - 'nitrogen/**'
+      - 'src/**'
+      - '*.podspec'
+      - 'package.json'
+      - 'yarn.lock'
+      - 'scripts/ios-compat/**'
+      - '.github/workflows/ios-compatibility.yml'
+
+jobs:
+  consumer:
+    runs-on: macos-latest
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      max-parallel: 2
+      matrix:
+        include:
+          - name: rn-0880-default
+            kind: bare
+            rn: '0.88.0'
+            linkage: default
+            maps: false
+          - name: rn-0881-default
+            kind: bare
+            rn: '0.88.1'
+            linkage: default
+            maps: false
+          - name: rn-0881-static
+            kind: bare
+            rn: '0.88.1'
+            linkage: static
+            maps: false
+          - name: rn-0881-maps-default
+            kind: bare
+            rn: '0.88.1'
+            linkage: default
+            maps: true
+          - name: expo-58-maps-default
+            kind: expo
+            rn: '0.88.0'
+            linkage: default
+            maps: true
+          - name: expo-58-maps-static
+            kind: expo
+            rn: '0.88.0'
+            linkage: static
+            maps: true
+    name: ${{ matrix.name }}
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: ./.github/actions/setup
+      - name: Install Xcode project test dependency
+        run: gem install xcodeproj --version 1.27.0 --no-document --user-install
+      - name: Build and pack library
+        run: |
+          yarn exec eslint scripts/ios-compat
+          ruby scripts/ios-compat/verify-helper.rb
+          yarn prepare
+          npm pack --ignore-scripts --pack-destination "$RUNNER_TEMP" --json > "$RUNNER_TEMP/package.json"
+          node -e 'const fs=require("fs"); const p=JSON.parse(fs.readFileSync(process.env.RUNNER_TEMP+"/package.json"))[0]; fs.appendFileSync(process.env.GITHUB_ENV,"LIBRARY_TARBALL="+process.env.RUNNER_TEMP+"/"+p.filename+"\n")'
+      - name: Create clean consumer from tarball
+        run: |
+          args=(--kind '${{ matrix.kind }}' --rn '${{ matrix.rn }}' --directory "$RUNNER_TEMP/consumer" --tarball "$LIBRARY_TARBALL")
+          if [ '${{ matrix.maps }}' = 'true' ]; then args+=(--maps); fi
+          CI=1 node scripts/ios-compat/create-consumer.mjs "${args[@]}"
+      - name: Install pods
+        working-directory: ${{ runner.temp }}/consumer/ios
+        run: |
+          if [ '${{ matrix.linkage }}' = 'static' ]; then export USE_FRAMEWORKS=static; fi
+          pod install
+      - name: Build simulator Release
+        working-directory: ${{ runner.temp }}/consumer
+        run: |
+          if [ '${{ matrix.kind }}' = 'bare' ]; then scheme=NitroNavigationConsumer; else scheme=consumer; fi
+          xcodebuild -version
+          xcodebuild -workspace "ios/$scheme.xcworkspace" -scheme "$scheme" \
+            -configuration Release -sdk iphonesimulator \
+            -destination 'generic/platform=iOS Simulator' \
+            -derivedDataPath "$RUNNER_TEMP/build" \
+            -resultBundlePath "$RUNNER_TEMP/results.xcresult" \
+            ARCHS=arm64 CODE_SIGNING_ALLOWED=NO build
+      - name: Verify embedded frameworks and resources
+        run: node scripts/ios-compat/verify-app.mjs "$RUNNER_TEMP/build/Build/Products/Release-iphonesimulator"
+      - name: Build unsigned device archive
+        if: matrix.name == 'rn-0881-default'
+        working-directory: ${{ runner.temp }}/consumer
+        run: |
+          xcodebuild -workspace ios/NitroNavigationConsumer.xcworkspace -scheme NitroNavigationConsumer \
+            -configuration Release -destination 'generic/platform=iOS' \
+            -derivedDataPath "$RUNNER_TEMP/build" -archivePath "$RUNNER_TEMP/consumer.xcarchive" \
+            CODE_SIGNING_ALLOWED=NO archive
+          node "$GITHUB_WORKSPACE/scripts/ios-compat/verify-app.mjs" "$RUNNER_TEMP/consumer.xcarchive/Products/Applications"
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: ${{ matrix.name }}-diagnostics
+          path: |
+            ${{ runner.temp }}/results.xcresult
+            ${{ runner.temp }}/consumer/ios/Podfile
+            ${{ runner.temp }}/consumer/ios/Podfile.lock
+
+  android-maps:
+    name: Android with latest Maps wrapper
+    runs-on: ubuntu-latest
+    environment: production
+    timeout-minutes: 45
+    if: github.event_name == 'workflow_dispatch' || github.event.pull_request.head.repo.full_name == github.repository
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: ./.github/actions/setup
+      - uses: actions/setup-java@c5195efecf7bdfc987ee8bae7a71cb8b11521c00
+        with:
+          distribution: zulu
+          java-version: '17'
+      - name: Install Android SDK components
+        run: |
+          set +o pipefail
+          yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses > /dev/null
+          set -o pipefail
+          "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" 'platforms;android-37' 'build-tools;37.0.0' 'ndk;27.1.12297006' 'cmake;3.22.1'
+      - name: Pack library and create clean RN + Maps consumer
+        run: |
+          yarn prepare
+          npm pack --ignore-scripts --pack-destination "$RUNNER_TEMP" --json > "$RUNNER_TEMP/package.json"
+          node -e 'const fs=require("fs"); const p=JSON.parse(fs.readFileSync(process.env.RUNNER_TEMP+"/package.json"))[0]; fs.appendFileSync(process.env.GITHUB_ENV,"LIBRARY_TARBALL="+process.env.RUNNER_TEMP+"/"+p.filename+"\n")'
+          CI=1 node scripts/ios-compat/create-consumer.mjs --kind bare --rn 0.88.1 --maps --directory "$RUNNER_TEMP/consumer" --tarball "$LIBRARY_TARBALL"
+          node scripts/ios-compat/configure-android.mjs "$RUNNER_TEMP/consumer"
+      - name: Build Android consumer and inspect Maps resolution
+        working-directory: ${{ runner.temp }}/consumer/android
+        env:
+          ORG_GRADLE_PROJECT_MAPBOX_DOWNLOADS_TOKEN: ${{ secrets.MAPBOX_DOWNLOADS_TOKEN }}
+        run: |
+          ./gradlew :app:dependencyInsight --configuration debugRuntimeClasspath --dependency com.mapbox.maps:android-ndk27 --console=plain
+          ./gradlew :app:assembleDebug -PreactNativeArchitectures=arm64-v8a --console=plain --max-workers=3
