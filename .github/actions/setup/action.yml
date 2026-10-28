@@ -1,12 +1,19 @@
 name: Setup
 description: Setup Node.js and install dependencies
 
+inputs:
+  node-version:
+    description: Override the version from .nvmrc
+    required: false
+    default: ''
+
 runs:
   using: composite
   steps:
     - name: Setup Node.js
       uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
       with:
+        node-version: ${{ inputs.node-version }}
         node-version-file: .nvmrc
 
     - name: Restore dependencies
