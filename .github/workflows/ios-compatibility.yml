@@ -130,11 +130,13 @@ jobs:
           yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses > /dev/null
           set -o pipefail
           "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" 'platforms;android-37.0' 'build-tools;37.0.0' 'ndk;27.1.12297006' 'cmake;3.22.1'
-      - name: Pack library and create clean RN + Maps consumer
+      - name: Pack library
         run: |
           yarn prepare
           npm pack --ignore-scripts --pack-destination "$RUNNER_TEMP"
           node -e 'const fs=require("fs"); const p=require("./package.json"); fs.appendFileSync(process.env.GITHUB_ENV,"LIBRARY_TARBALL="+process.env.RUNNER_TEMP+"/"+p.name+"-"+p.version+".tgz\n")'
+      - name: Create clean RN + Maps consumer
+        run: |
           CI=1 node scripts/ios-compat/create-consumer.mjs --kind bare --rn 0.88.1 --maps --directory "$RUNNER_TEMP/consumer" --tarball "$LIBRARY_TARBALL"
           node scripts/ios-compat/configure-android.mjs "$RUNNER_TEMP/consumer"
       - name: Build Android consumer and inspect Maps resolution
