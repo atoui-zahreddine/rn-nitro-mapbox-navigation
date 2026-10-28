@@ -12,7 +12,7 @@ Pod::Spec.new do |s|
   s.authors      = package["author"]
 
   s.platforms    = { :ios => min_ios_version_supported }
-  s.source       = { :git => "https://github.com/atoui-zahreddine/react-native-mapbox-turn-by-turn-navigation.git", :tag => "#{s.version}" }
+  s.source       = { :git => "https://github.com/atoui-zahreddine/rn-nitro-mapbox-navigation.git", :tag => "#{s.version}" }
 
   s.source_files = [
     "ios/**/*.{swift}",

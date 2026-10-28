@@ -46,7 +46,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/atoui-zahreddine/react-native-mapbox-turn-by-turn-navigation.git"
+    "url": "git+https://github.com/atoui-zahreddine/rn-nitro-mapbox-navigation.git"
   },
   "author": "Zahreddine Atoui <at.zahreddine@gmail.com> (https://github.com/atoui-zahreddine)",
   "license": "MIT",
