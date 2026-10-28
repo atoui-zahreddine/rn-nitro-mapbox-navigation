@@ -6,7 +6,7 @@
 
 # Interface: Coordinate
 
-Defined in: [NitroMapboxNavigation.nitro.ts:7](https://github.com/atoui-zahreddine/react-native-mapbox-turn-by-turn-navigation/blob/cf1440e1d3bec19b76c2ac7e2c635a9a943f2080/src/NitroMapboxNavigation.nitro.ts#L7)
+Defined in: [NitroMapboxNavigation.nitro.ts:7](https://github.com/atoui-zahreddine/react-native-mapbox-turn-by-turn-navigation/blob/5e1ede5f5c52dc5a5917efc4ed1aef3314a6c4ab/src/NitroMapboxNavigation.nitro.ts#L7)
 
 ## Extended by
 
@@ -19,7 +19,7 @@ Defined in: [NitroMapboxNavigation.nitro.ts:7](https://github.com/atoui-zahreddi
 
 > **latitude**: `number`
 
-Defined in: [NitroMapboxNavigation.nitro.ts:8](https://github.com/atoui-zahreddine/react-native-mapbox-turn-by-turn-navigation/blob/cf1440e1d3bec19b76c2ac7e2c635a9a943f2080/src/NitroMapboxNavigation.nitro.ts#L8)
+Defined in: [NitroMapboxNavigation.nitro.ts:8](https://github.com/atoui-zahreddine/react-native-mapbox-turn-by-turn-navigation/blob/5e1ede5f5c52dc5a5917efc4ed1aef3314a6c4ab/src/NitroMapboxNavigation.nitro.ts#L8)
 
 ***
 
@@ -27,4 +27,4 @@ Defined in: [NitroMapboxNavigation.nitro.ts:8](https://github.com/atoui-zahreddi
 
 > **longitude**: `number`
 
-Defined in: [NitroMapboxNavigation.nitro.ts:9](https://github.com/atoui-zahreddine/react-native-mapbox-turn-by-turn-navigation/blob/cf1440e1d3bec19b76c2ac7e2c635a9a943f2080/src/NitroMapboxNavigation.nitro.ts#L9)
+Defined in: [NitroMapboxNavigation.nitro.ts:9](https://github.com/atoui-zahreddine/react-native-mapbox-turn-by-turn-navigation/blob/5e1ede5f5c52dc5a5917efc4ed1aef3314a6c4ab/src/NitroMapboxNavigation.nitro.ts#L9)

@@ -36,7 +36,7 @@ Local artifacts:
 - `/tmp/nitro-3331-latest-maps-preview.mp4` (muted, compressed, 2× playback)
 - `/tmp/nitro-3331-expo-flow.adb` (saved interaction script)
 
-Before the patch upgrade, Navigation 3.33.0 / Maps 11.33.0 passed five clean simulator build configurations: bare RN 0.88.0 default; bare RN 0.88.1 default and static; Expo 58 with Maps default and static. Earlier lifecycle checks covered destination changes without remounting, short-route arrival, routing error and recovery, background/resume, and repeated close/reopen. These historical results should not be described as all rerun against 3.33.1.
+Before the patch upgrade, Navigation 3.33.0 / Maps 11.33.0 passed five clean simulator build configurations: bare RN 0.88.0 default; bare RN 0.88.1 default and static; Expo 58 with Maps default and static. Earlier lifecycle checks covered destination changes without remounting, short-route arrival, routing error and recovery, background/resume, and repeated close/reopen. The earlier lifecycle scenarios were not all repeated on 3.33.1; the current GitHub matrix rebuilt all five configurations plus the bare Maps consumer.
 
 ## Regression checks
 
@@ -66,4 +66,6 @@ The reviewed prerelease is `0.11.0-beta.1`, intended for npm's `next` tag. The m
 
 The [release-only run 40708495787](https://github.com/atoui-zahreddine/rn-nitro-mapbox-navigation/actions/runs/40708495787) passed and npm accepted `rn-nitro-mapbox-navigation@0.11.0-beta.1` under `next` at 14:43 UTC on 28 October 2026. The published source commit is `cf1440e1d3bec19b76c2ac7e2c635a9a943f2080`. The workflow verified all seven passing consumer jobs and that only release.yml differed from their tested commit. npm signed and recorded [the provenance statement](https://search.sigstore.dev/?logIndex=3541011802).
 
-npm reported that processing could take a few minutes. Acceptance is distinct from registry availability: the first subsequent metadata requests still returned 404, so registry installation in Bumbal is pending. The original worktrees remain untouched.
+After npm processing, registry metadata confirmed `next: 0.11.0-beta.1` and `latest: 0.10.0`. Isolated Bumbal now pins the exact registry version instead of the local file dependency. pnpm installation and pod installation succeeded; the installed Swift implementation and SPM helper match the tested source byte for byte. React, React Native, and Nitro resolve to the same installations from the app and library. The original Bumbal manifest still pins 0.10.0 and remains untouched. A fresh signed Release archive using this registry dependency passed, along with strict deep signature verification and the embedded-framework/resource/JS-bundle check. Archive: `/tmp/BumbalDriver-mapbox-beta1.xcarchive`; build log: `/tmp/bumbal-registry-beta-archive.log`.
+
+The registry-consumer archive also exported successfully as a development-signed IPA: `/tmp/BumbalDriver-mapbox-beta1-export/BumbalDriver.ipa` (export log: `/tmp/bumbal-registry-beta-export.log`). No physical-device run was performed.

@@ -6,7 +6,7 @@
 
 # Interface: NitroMapboxNavigationProps
 
-Defined in: [NitroMapboxNavigation.nitro.ts:70](https://github.com/atoui-zahreddine/react-native-mapbox-turn-by-turn-navigation/blob/cf1440e1d3bec19b76c2ac7e2c635a9a943f2080/src/NitroMapboxNavigation.nitro.ts#L70)
+Defined in: [NitroMapboxNavigation.nitro.ts:70](https://github.com/atoui-zahreddine/react-native-mapbox-turn-by-turn-navigation/blob/5e1ede5f5c52dc5a5917efc4ed1aef3314a6c4ab/src/NitroMapboxNavigation.nitro.ts#L70)
 
 ## Extends
 
@@ -18,7 +18,7 @@ Defined in: [NitroMapboxNavigation.nitro.ts:70](https://github.com/atoui-zahredd
 
 > **destination**: [`Coordinate`](Coordinate.md)
 
-Defined in: [NitroMapboxNavigation.nitro.ts:75](https://github.com/atoui-zahreddine/react-native-mapbox-turn-by-turn-navigation/blob/cf1440e1d3bec19b76c2ac7e2c635a9a943f2080/src/NitroMapboxNavigation.nitro.ts#L75)
+Defined in: [NitroMapboxNavigation.nitro.ts:75](https://github.com/atoui-zahreddine/react-native-mapbox-turn-by-turn-navigation/blob/5e1ede5f5c52dc5a5917efc4ed1aef3314a6c4ab/src/NitroMapboxNavigation.nitro.ts#L75)
 
 ***
 
@@ -26,7 +26,7 @@ Defined in: [NitroMapboxNavigation.nitro.ts:75](https://github.com/atoui-zahredd
 
 > `optional` **destinationTitle**: `string`
 
-Defined in: [NitroMapboxNavigation.nitro.ts:74](https://github.com/atoui-zahreddine/react-native-mapbox-turn-by-turn-navigation/blob/cf1440e1d3bec19b76c2ac7e2c635a9a943f2080/src/NitroMapboxNavigation.nitro.ts#L74)
+Defined in: [NitroMapboxNavigation.nitro.ts:74](https://github.com/atoui-zahreddine/react-native-mapbox-turn-by-turn-navigation/blob/5e1ede5f5c52dc5a5917efc4ed1aef3314a6c4ab/src/NitroMapboxNavigation.nitro.ts#L74)
 
 ***
 
@@ -34,7 +34,7 @@ Defined in: [NitroMapboxNavigation.nitro.ts:74](https://github.com/atoui-zahredd
 
 > `optional` **distanceUnit**: [`DistanceUnitEnum`](../enumerations/DistanceUnitEnum.md)
 
-Defined in: [NitroMapboxNavigation.nitro.ts:72](https://github.com/atoui-zahreddine/react-native-mapbox-turn-by-turn-navigation/blob/cf1440e1d3bec19b76c2ac7e2c635a9a943f2080/src/NitroMapboxNavigation.nitro.ts#L72)
+Defined in: [NitroMapboxNavigation.nitro.ts:72](https://github.com/atoui-zahreddine/react-native-mapbox-turn-by-turn-navigation/blob/5e1ede5f5c52dc5a5917efc4ed1aef3314a6c4ab/src/NitroMapboxNavigation.nitro.ts#L72)
 
 ***
 
@@ -42,7 +42,7 @@ Defined in: [NitroMapboxNavigation.nitro.ts:72](https://github.com/atoui-zahredd
 
 > `optional` **hideStatusView**: `boolean`
 
-Defined in: [NitroMapboxNavigation.nitro.ts:82](https://github.com/atoui-zahreddine/react-native-mapbox-turn-by-turn-navigation/blob/cf1440e1d3bec19b76c2ac7e2c635a9a943f2080/src/NitroMapboxNavigation.nitro.ts#L82)
+Defined in: [NitroMapboxNavigation.nitro.ts:82](https://github.com/atoui-zahreddine/react-native-mapbox-turn-by-turn-navigation/blob/5e1ede5f5c52dc5a5917efc4ed1aef3314a6c4ab/src/NitroMapboxNavigation.nitro.ts#L82)
 
 ***
 
@@ -50,7 +50,7 @@ Defined in: [NitroMapboxNavigation.nitro.ts:82](https://github.com/atoui-zahredd
 
 > `optional` **language**: `string`
 
-Defined in: [NitroMapboxNavigation.nitro.ts:76](https://github.com/atoui-zahreddine/react-native-mapbox-turn-by-turn-navigation/blob/cf1440e1d3bec19b76c2ac7e2c635a9a943f2080/src/NitroMapboxNavigation.nitro.ts#L76)
+Defined in: [NitroMapboxNavigation.nitro.ts:76](https://github.com/atoui-zahreddine/react-native-mapbox-turn-by-turn-navigation/blob/5e1ede5f5c52dc5a5917efc4ed1aef3314a6c4ab/src/NitroMapboxNavigation.nitro.ts#L76)
 
 ***
 
@@ -58,7 +58,7 @@ Defined in: [NitroMapboxNavigation.nitro.ts:76](https://github.com/atoui-zahredd
 
 > `optional` **mute**: `boolean`
 
-Defined in: [NitroMapboxNavigation.nitro.ts:71](https://github.com/atoui-zahreddine/react-native-mapbox-turn-by-turn-navigation/blob/cf1440e1d3bec19b76c2ac7e2c635a9a943f2080/src/NitroMapboxNavigation.nitro.ts#L71)
+Defined in: [NitroMapboxNavigation.nitro.ts:71](https://github.com/atoui-zahreddine/react-native-mapbox-turn-by-turn-navigation/blob/5e1ede5f5c52dc5a5917efc4ed1aef3314a6c4ab/src/NitroMapboxNavigation.nitro.ts#L71)
 
 ***
 
@@ -66,7 +66,7 @@ Defined in: [NitroMapboxNavigation.nitro.ts:71](https://github.com/atoui-zahredd
 
 > `optional` **onArrival**: [`OnArrivalListener`](../type-aliases/OnArrivalListener.md)
 
-Defined in: [NitroMapboxNavigation.nitro.ts:87](https://github.com/atoui-zahreddine/react-native-mapbox-turn-by-turn-navigation/blob/cf1440e1d3bec19b76c2ac7e2c635a9a943f2080/src/NitroMapboxNavigation.nitro.ts#L87)
+Defined in: [NitroMapboxNavigation.nitro.ts:87](https://github.com/atoui-zahreddine/react-native-mapbox-turn-by-turn-navigation/blob/5e1ede5f5c52dc5a5917efc4ed1aef3314a6c4ab/src/NitroMapboxNavigation.nitro.ts#L87)
 
 ***
 
@@ -74,7 +74,7 @@ Defined in: [NitroMapboxNavigation.nitro.ts:87](https://github.com/atoui-zahredd
 
 > `optional` **onCancel**: [`OnCancelListener`](../type-aliases/OnCancelListener.md)
 
-Defined in: [NitroMapboxNavigation.nitro.ts:85](https://github.com/atoui-zahreddine/react-native-mapbox-turn-by-turn-navigation/blob/cf1440e1d3bec19b76c2ac7e2c635a9a943f2080/src/NitroMapboxNavigation.nitro.ts#L85)
+Defined in: [NitroMapboxNavigation.nitro.ts:85](https://github.com/atoui-zahreddine/react-native-mapbox-turn-by-turn-navigation/blob/5e1ede5f5c52dc5a5917efc4ed1aef3314a6c4ab/src/NitroMapboxNavigation.nitro.ts#L85)
 
 ***
 
@@ -82,7 +82,7 @@ Defined in: [NitroMapboxNavigation.nitro.ts:85](https://github.com/atoui-zahredd
 
 > `optional` **onError**: [`OnErrorListener`](../type-aliases/OnErrorListener.md)
 
-Defined in: [NitroMapboxNavigation.nitro.ts:86](https://github.com/atoui-zahreddine/react-native-mapbox-turn-by-turn-navigation/blob/cf1440e1d3bec19b76c2ac7e2c635a9a943f2080/src/NitroMapboxNavigation.nitro.ts#L86)
+Defined in: [NitroMapboxNavigation.nitro.ts:86](https://github.com/atoui-zahreddine/react-native-mapbox-turn-by-turn-navigation/blob/5e1ede5f5c52dc5a5917efc4ed1aef3314a6c4ab/src/NitroMapboxNavigation.nitro.ts#L86)
 
 ***
 
@@ -90,7 +90,7 @@ Defined in: [NitroMapboxNavigation.nitro.ts:86](https://github.com/atoui-zahredd
 
 > `optional` **onLocationChange**: [`LocationChangeListener`](../type-aliases/LocationChangeListener.md)
 
-Defined in: [NitroMapboxNavigation.nitro.ts:83](https://github.com/atoui-zahreddine/react-native-mapbox-turn-by-turn-navigation/blob/cf1440e1d3bec19b76c2ac7e2c635a9a943f2080/src/NitroMapboxNavigation.nitro.ts#L83)
+Defined in: [NitroMapboxNavigation.nitro.ts:83](https://github.com/atoui-zahreddine/react-native-mapbox-turn-by-turn-navigation/blob/5e1ede5f5c52dc5a5917efc4ed1aef3314a6c4ab/src/NitroMapboxNavigation.nitro.ts#L83)
 
 ***
 
@@ -98,7 +98,7 @@ Defined in: [NitroMapboxNavigation.nitro.ts:83](https://github.com/atoui-zahredd
 
 > `optional` **onRouteProgressChange**: [`RouteProgressChangeListener`](../type-aliases/RouteProgressChangeListener.md)
 
-Defined in: [NitroMapboxNavigation.nitro.ts:84](https://github.com/atoui-zahreddine/react-native-mapbox-turn-by-turn-navigation/blob/cf1440e1d3bec19b76c2ac7e2c635a9a943f2080/src/NitroMapboxNavigation.nitro.ts#L84)
+Defined in: [NitroMapboxNavigation.nitro.ts:84](https://github.com/atoui-zahreddine/react-native-mapbox-turn-by-turn-navigation/blob/5e1ede5f5c52dc5a5917efc4ed1aef3314a6c4ab/src/NitroMapboxNavigation.nitro.ts#L84)
 
 ***
 
@@ -106,7 +106,7 @@ Defined in: [NitroMapboxNavigation.nitro.ts:84](https://github.com/atoui-zahredd
 
 > `optional` **onWaypointArrival**: [`OnWaypointArrivalListener`](../type-aliases/OnWaypointArrivalListener.md)
 
-Defined in: [NitroMapboxNavigation.nitro.ts:88](https://github.com/atoui-zahreddine/react-native-mapbox-turn-by-turn-navigation/blob/cf1440e1d3bec19b76c2ac7e2c635a9a943f2080/src/NitroMapboxNavigation.nitro.ts#L88)
+Defined in: [NitroMapboxNavigation.nitro.ts:88](https://github.com/atoui-zahreddine/react-native-mapbox-turn-by-turn-navigation/blob/5e1ede5f5c52dc5a5917efc4ed1aef3314a6c4ab/src/NitroMapboxNavigation.nitro.ts#L88)
 
 ***
 
@@ -114,7 +114,7 @@ Defined in: [NitroMapboxNavigation.nitro.ts:88](https://github.com/atoui-zahredd
 
 > **origin**: [`Coordinate`](Coordinate.md)
 
-Defined in: [NitroMapboxNavigation.nitro.ts:73](https://github.com/atoui-zahreddine/react-native-mapbox-turn-by-turn-navigation/blob/cf1440e1d3bec19b76c2ac7e2c635a9a943f2080/src/NitroMapboxNavigation.nitro.ts#L73)
+Defined in: [NitroMapboxNavigation.nitro.ts:73](https://github.com/atoui-zahreddine/react-native-mapbox-turn-by-turn-navigation/blob/5e1ede5f5c52dc5a5917efc4ed1aef3314a6c4ab/src/NitroMapboxNavigation.nitro.ts#L73)
 
 ***
 
@@ -122,7 +122,7 @@ Defined in: [NitroMapboxNavigation.nitro.ts:73](https://github.com/atoui-zahredd
 
 > `optional` **shouldSimulateRoute**: `boolean`
 
-Defined in: [NitroMapboxNavigation.nitro.ts:78](https://github.com/atoui-zahreddine/react-native-mapbox-turn-by-turn-navigation/blob/cf1440e1d3bec19b76c2ac7e2c635a9a943f2080/src/NitroMapboxNavigation.nitro.ts#L78)
+Defined in: [NitroMapboxNavigation.nitro.ts:78](https://github.com/atoui-zahreddine/react-native-mapbox-turn-by-turn-navigation/blob/5e1ede5f5c52dc5a5917efc4ed1aef3314a6c4ab/src/NitroMapboxNavigation.nitro.ts#L78)
 
 ***
 
@@ -130,7 +130,7 @@ Defined in: [NitroMapboxNavigation.nitro.ts:78](https://github.com/atoui-zahredd
 
 > `optional` **showCancelButton**: `boolean`
 
-Defined in: [NitroMapboxNavigation.nitro.ts:81](https://github.com/atoui-zahreddine/react-native-mapbox-turn-by-turn-navigation/blob/cf1440e1d3bec19b76c2ac7e2c635a9a943f2080/src/NitroMapboxNavigation.nitro.ts#L81)
+Defined in: [NitroMapboxNavigation.nitro.ts:81](https://github.com/atoui-zahreddine/react-native-mapbox-turn-by-turn-navigation/blob/5e1ede5f5c52dc5a5917efc4ed1aef3314a6c4ab/src/NitroMapboxNavigation.nitro.ts#L81)
 
 ***
 
@@ -138,7 +138,7 @@ Defined in: [NitroMapboxNavigation.nitro.ts:81](https://github.com/atoui-zahredd
 
 > `optional` **showsEndOfRouteFeedback**: `boolean`
 
-Defined in: [NitroMapboxNavigation.nitro.ts:80](https://github.com/atoui-zahreddine/react-native-mapbox-turn-by-turn-navigation/blob/cf1440e1d3bec19b76c2ac7e2c635a9a943f2080/src/NitroMapboxNavigation.nitro.ts#L80)
+Defined in: [NitroMapboxNavigation.nitro.ts:80](https://github.com/atoui-zahreddine/react-native-mapbox-turn-by-turn-navigation/blob/5e1ede5f5c52dc5a5917efc4ed1aef3314a6c4ab/src/NitroMapboxNavigation.nitro.ts#L80)
 
 ***
 
@@ -146,7 +146,7 @@ Defined in: [NitroMapboxNavigation.nitro.ts:80](https://github.com/atoui-zahredd
 
 > `optional` **travelMode**: [`TravelModeEnum`](../enumerations/TravelModeEnum.md)
 
-Defined in: [NitroMapboxNavigation.nitro.ts:77](https://github.com/atoui-zahreddine/react-native-mapbox-turn-by-turn-navigation/blob/cf1440e1d3bec19b76c2ac7e2c635a9a943f2080/src/NitroMapboxNavigation.nitro.ts#L77)
+Defined in: [NitroMapboxNavigation.nitro.ts:77](https://github.com/atoui-zahreddine/react-native-mapbox-turn-by-turn-navigation/blob/5e1ede5f5c52dc5a5917efc4ed1aef3314a6c4ab/src/NitroMapboxNavigation.nitro.ts#L77)
 
 ***
 
@@ -154,4 +154,4 @@ Defined in: [NitroMapboxNavigation.nitro.ts:77](https://github.com/atoui-zahredd
 
 > `optional` **waypoints**: [`Waypoint`](Waypoint.md)[]
 
-Defined in: [NitroMapboxNavigation.nitro.ts:79](https://github.com/atoui-zahreddine/react-native-mapbox-turn-by-turn-navigation/blob/cf1440e1d3bec19b76c2ac7e2c635a9a943f2080/src/NitroMapboxNavigation.nitro.ts#L79)
+Defined in: [NitroMapboxNavigation.nitro.ts:79](https://github.com/atoui-zahreddine/react-native-mapbox-turn-by-turn-navigation/blob/5e1ede5f5c52dc5a5917efc4ed1aef3314a6c4ab/src/NitroMapboxNavigation.nitro.ts#L79)
