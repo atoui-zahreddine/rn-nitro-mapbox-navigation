@@ -7,6 +7,10 @@ on:
       - master
   workflow_dispatch:
     inputs:
+      validate_only:
+        description: Run all consumer builds without publishing
+        type: boolean
+        default: false
       prerelease:
         description: Publish the checked-in prerelease version under the next tag after consumer checks
         type: boolean
@@ -27,7 +31,7 @@ jobs:
   release:
     runs-on: ubuntu-latest
     environment: production
-    if: ${{ !inputs.prerelease && !contains(github.event.head_commit.message, 'skip ci') }}
+    if: ${{ !inputs.validate_only && !inputs.prerelease && !contains(github.event.head_commit.message, 'skip ci') }}
 
     steps:
       - name: Checkout
@@ -50,11 +54,11 @@ jobs:
         run: yarn semantic-release
 
   prerelease-checks:
-    if: github.event_name == 'workflow_dispatch' && inputs.prerelease && !inputs.consumer_validation_run
+    if: github.event_name == 'workflow_dispatch' && (inputs.validate_only || (inputs.prerelease && !inputs.consumer_validation_run))
     uses: ./.github/workflows/ios-compatibility.yml
 
   reuse-consumer-checks:
-    if: github.event_name == 'workflow_dispatch' && inputs.prerelease && inputs.consumer_validation_run
+    if: github.event_name == 'workflow_dispatch' && !inputs.validate_only && inputs.prerelease && inputs.consumer_validation_run
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
@@ -96,7 +100,7 @@ jobs:
 
   prerelease:
     if: >-
-      always() && !cancelled() && github.event_name == 'workflow_dispatch' && inputs.prerelease &&
+      always() && !cancelled() && github.event_name == 'workflow_dispatch' && !inputs.validate_only && inputs.prerelease &&
       (needs.prerelease-checks.result == 'success' || needs.reuse-consumer-checks.result == 'success')
     needs: [prerelease-checks, reuse-consumer-checks]
     runs-on: ubuntu-latest
