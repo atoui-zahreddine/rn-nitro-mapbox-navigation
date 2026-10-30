@@ -1,3 +1,16 @@
+# [0.11.0](https://github.com/atoui-zahreddine/rn-nitro-mapbox-navigation/compare/v0.10.0...v0.11.0) (2026-10-30)
+
+
+### Bug Fixes
+
+* match canonical repository for trusted npm publishing ([1e916fc](https://github.com/atoui-zahreddine/rn-nitro-mapbox-navigation/commit/1e916fc19fd9cacee049263eecba6ca3b0a60015))
+
+
+### Features
+
+* adopt Mapbox Navigation v3 with shared SwiftPM dependencies ([659092c](https://github.com/atoui-zahreddine/rn-nitro-mapbox-navigation/commit/659092c8620bba63f743d816310ae2e281449e55))
+* upgrade Android Navigation and prepare stable 0.11.0 ([5555288](https://github.com/atoui-zahreddine/rn-nitro-mapbox-navigation/commit/55552888f350a5ac9e033cb8e4388d477cbe4400))
+
 # [0.10.0](https://github.com/atoui-zahreddine/rn-nitro-mapbox-navigation/compare/v0.9.0...v0.10.0) (2026-05-05)
 
 
