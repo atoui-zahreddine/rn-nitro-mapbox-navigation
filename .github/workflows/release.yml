@@ -41,12 +41,17 @@ jobs:
 
       - name: Setup
         uses: ./.github/actions/setup
-
-      - name: Run tests
-        run: yarn test
+        with:
+          node-version: '24'
 
       - name: Build
         run: yarn prepare
+
+      - name: Validate library
+        run: |
+          yarn lint
+          yarn typecheck
+          yarn test --runInBand
 
       - name: Release
         env:
