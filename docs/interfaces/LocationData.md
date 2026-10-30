@@ -6,7 +6,7 @@
 
 # Interface: LocationData
 
-Defined in: [NitroMapboxNavigation.nitro.ts:34](https://github.com/atoui-zahreddine/react-native-mapbox-turn-by-turn-navigation/blob/5e1ede5f5c52dc5a5917efc4ed1aef3314a6c4ab/src/NitroMapboxNavigation.nitro.ts#L34)
+Defined in: [NitroMapboxNavigation.nitro.ts:34](https://github.com/atoui-zahreddine/react-native-mapbox-turn-by-turn-navigation/blob/534e376e2d2ce605a44848f746e95eb62f836859/src/NitroMapboxNavigation.nitro.ts#L34)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [NitroMapboxNavigation.nitro.ts:34](https://github.com/atoui-zahredd
 
 > **accuracy**: `number`
 
-Defined in: [NitroMapboxNavigation.nitro.ts:38](https://github.com/atoui-zahreddine/react-native-mapbox-turn-by-turn-navigation/blob/5e1ede5f5c52dc5a5917efc4ed1aef3314a6c4ab/src/NitroMapboxNavigation.nitro.ts#L38)
+Defined in: [NitroMapboxNavigation.nitro.ts:38](https://github.com/atoui-zahreddine/react-native-mapbox-turn-by-turn-navigation/blob/534e376e2d2ce605a44848f746e95eb62f836859/src/NitroMapboxNavigation.nitro.ts#L38)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [NitroMapboxNavigation.nitro.ts:38](https://github.com/atoui-zahredd
 
 > **heading**: `number`
 
-Defined in: [NitroMapboxNavigation.nitro.ts:37](https://github.com/atoui-zahreddine/react-native-mapbox-turn-by-turn-navigation/blob/5e1ede5f5c52dc5a5917efc4ed1aef3314a6c4ab/src/NitroMapboxNavigation.nitro.ts#L37)
+Defined in: [NitroMapboxNavigation.nitro.ts:37](https://github.com/atoui-zahreddine/react-native-mapbox-turn-by-turn-navigation/blob/534e376e2d2ce605a44848f746e95eb62f836859/src/NitroMapboxNavigation.nitro.ts#L37)
 
 ***
 
@@ -30,7 +30,7 @@ Defined in: [NitroMapboxNavigation.nitro.ts:37](https://github.com/atoui-zahredd
 
 > **latitude**: `number`
 
-Defined in: [NitroMapboxNavigation.nitro.ts:35](https://github.com/atoui-zahreddine/react-native-mapbox-turn-by-turn-navigation/blob/5e1ede5f5c52dc5a5917efc4ed1aef3314a6c4ab/src/NitroMapboxNavigation.nitro.ts#L35)
+Defined in: [NitroMapboxNavigation.nitro.ts:35](https://github.com/atoui-zahreddine/react-native-mapbox-turn-by-turn-navigation/blob/534e376e2d2ce605a44848f746e95eb62f836859/src/NitroMapboxNavigation.nitro.ts#L35)
 
 ***
 
@@ -38,7 +38,7 @@ Defined in: [NitroMapboxNavigation.nitro.ts:35](https://github.com/atoui-zahredd
 
 > **longitude**: `number`
 
-Defined in: [NitroMapboxNavigation.nitro.ts:36](https://github.com/atoui-zahreddine/react-native-mapbox-turn-by-turn-navigation/blob/5e1ede5f5c52dc5a5917efc4ed1aef3314a6c4ab/src/NitroMapboxNavigation.nitro.ts#L36)
+Defined in: [NitroMapboxNavigation.nitro.ts:36](https://github.com/atoui-zahreddine/react-native-mapbox-turn-by-turn-navigation/blob/534e376e2d2ce605a44848f746e95eb62f836859/src/NitroMapboxNavigation.nitro.ts#L36)
 
 ***
 
@@ -46,4 +46,4 @@ Defined in: [NitroMapboxNavigation.nitro.ts:36](https://github.com/atoui-zahredd
 
 > **timestamp**: `number`
 
-Defined in: [NitroMapboxNavigation.nitro.ts:39](https://github.com/atoui-zahreddine/react-native-mapbox-turn-by-turn-navigation/blob/5e1ede5f5c52dc5a5917efc4ed1aef3314a6c4ab/src/NitroMapboxNavigation.nitro.ts#L39)
+Defined in: [NitroMapboxNavigation.nitro.ts:39](https://github.com/atoui-zahreddine/react-native-mapbox-turn-by-turn-navigation/blob/534e376e2d2ce605a44848f746e95eb62f836859/src/NitroMapboxNavigation.nitro.ts#L39)

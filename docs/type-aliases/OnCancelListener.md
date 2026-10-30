@@ -8,7 +8,7 @@
 
 > **OnCancelListener** = () => `void`
 
-Defined in: [NitroMapboxNavigation.nitro.ts:68](https://github.com/atoui-zahreddine/react-native-mapbox-turn-by-turn-navigation/blob/5e1ede5f5c52dc5a5917efc4ed1aef3314a6c4ab/src/NitroMapboxNavigation.nitro.ts#L68)
+Defined in: [NitroMapboxNavigation.nitro.ts:68](https://github.com/atoui-zahreddine/react-native-mapbox-turn-by-turn-navigation/blob/534e376e2d2ce605a44848f746e95eb62f836859/src/NitroMapboxNavigation.nitro.ts#L68)
 
 ## Returns
 

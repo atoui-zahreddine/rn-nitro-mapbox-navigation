@@ -7,7 +7,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 React Native library (`rn-nitro-mapbox-navigation`) that wraps Mapbox Navigation SDK to provide a full turn-by-turn navigation view component. Built with **Nitro Modules** (not the legacy bridge or TurboModules). New Architecture (Fabric) only — no Old Architecture support.
 
 - **iOS**: Mapbox Navigation 3.33.1 (`MapboxNavigationCore` and `MapboxNavigationUIKit`), Maps 11.33.1 via React Native's `spm_dependency` helper alongside CocoaPods (Swift)
-- **Android**: Mapbox Navigation 3.12.2 via Gradle (Kotlin + C++ JNI bridge)
+- **Android**: Mapbox Navigation 3.33.1 via Gradle (Kotlin + C++ JNI bridge)
 - **Package manager**: Yarn 3.6.1 (Berry). Do not use npm.
 - **Node**: v24 (see `.nvmrc`)
 

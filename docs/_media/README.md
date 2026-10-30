@@ -15,7 +15,7 @@ Generate a bare consumer, using the tarball filename printed by `npm pack`:
 node scripts/ios-compat/create-consumer.mjs \
   --kind bare --rn 0.88.1 \
   --directory /tmp/navigation-consumer \
-  --tarball /tmp/rn-nitro-mapbox-navigation-0.11.0-beta.1.tgz
+  --tarball /tmp/rn-nitro-mapbox-navigation-0.11.0.tgz
 ```
 
 For Expo 58 with Maps, use `--kind expo --maps`. The Maps fixture pins `@rnmapbox/maps` 10.3.16. Unpatched 10.2.10 fails against RN 0.88's changed `LayoutMetrics` C++ structure; the patched Bumbal app is a separate integration case.

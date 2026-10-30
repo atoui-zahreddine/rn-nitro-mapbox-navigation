@@ -34,6 +34,8 @@ import com.mapbox.navigation.core.MapboxNavigationProvider
 import com.mapbox.navigation.core.arrival.ArrivalObserver
 import com.mapbox.navigation.core.directions.session.RoutesObserver
 import com.mapbox.navigation.core.formatter.MapboxDistanceFormatter
+import com.mapbox.navigation.core.replay.route.ReplayProgressObserver
+import com.mapbox.navigation.core.replay.route.ReplayRouteMapper
 import com.mapbox.navigation.core.trip.session.LocationMatcherResult
 import com.mapbox.navigation.core.trip.session.LocationObserver
 import com.mapbox.navigation.core.trip.session.RouteProgressObserver
@@ -108,6 +110,7 @@ class NavigationView(context: ThemedReactContext, private var implementation: Hy
     viewportDataSource
   )
   private var mapboxNavigation: MapboxNavigation? = null
+  private var replayProgressObserver: ReplayProgressObserver? = null
   private lateinit var maneuverApi: MapboxManeuverApi
   private lateinit var tripProgressApi: MapboxTripProgressApi
   private lateinit var speechApi: MapboxSpeechApi
@@ -410,6 +413,7 @@ class NavigationView(context: ThemedReactContext, private var implementation: Hy
     if (isCleanedUp) return
     isCleanedUp = true
 
+    stopReplay()
     mapboxNavigation?.unregisterRoutesObserver(routesObserver)
     mapboxNavigation?.unregisterArrivalObserver(arrivalObserver)
     mapboxNavigation?.unregisterLocationObserver(locationObserver)
@@ -442,6 +446,7 @@ class NavigationView(context: ThemedReactContext, private var implementation: Hy
   fun onPropsUpdated() {
     if (!isInitialized) {
       isInitialized = true
+      routeNeedsUpdate = false
       setup()
       fetchRoute()
       return
@@ -500,6 +505,7 @@ class NavigationView(context: ThemedReactContext, private var implementation: Hy
     binding.stop.setOnClickListener {
       Log.d(TAG, "Stop button clicked")
       implementation?.onCancel?.invoke()
+      stopReplay()
       mapboxNavigation?.stopTripSession()
     }
     binding.recenter.setOnClickListener {
@@ -615,6 +621,7 @@ class NavigationView(context: ThemedReactContext, private var implementation: Hy
    * @param routes The list of navigation routes to use.
    */
   @SuppressLint("MissingPermission")
+  @OptIn(com.mapbox.navigation.base.ExperimentalPreviewMapboxNavigationAPI::class)
   private fun setRouteAndStartNavigation(routes: List<NavigationRoute>) {
     mapboxNavigation?.setNavigationRoutes(routes)
 
@@ -629,8 +636,35 @@ class NavigationView(context: ThemedReactContext, private var implementation: Hy
       Log.d(TAG, "Trip progress card made visible")
     }, 50) // Small delay to ensure layout is complete
 
-    mapboxNavigation?.startTripSession(withForegroundService = true)
+    val navigation = mapboxNavigation ?: return
+    stopReplay()
+    if (implementation?.shouldSimulateRoute == true) {
+      val events = ReplayRouteMapper().mapDirectionsRouteGeometry(routes.first().directionsRoute)
+      if (events.isEmpty()) {
+        sendErrorToJS("The route has no location events to simulate")
+        return
+      }
+      val replayer = navigation.mapboxReplayer
+      replayProgressObserver = ReplayProgressObserver(replayer).also {
+        navigation.registerRouteProgressObserver(it)
+      }
+      navigation.startReplayTripSession(withForegroundService = true)
+      replayer.pushEvents(events)
+      replayer.seekTo(events.first())
+      replayer.play()
+    } else {
+      navigation.startTripSession(withForegroundService = true)
+    }
     Log.d(TAG, "Navigation started with ${routes.size} routes")
+  }
+
+  @OptIn(com.mapbox.navigation.base.ExperimentalPreviewMapboxNavigationAPI::class)
+  private fun stopReplay() {
+    val observer = replayProgressObserver ?: return
+    mapboxNavigation?.unregisterRouteProgressObserver(observer)
+    mapboxNavigation?.mapboxReplayer?.stop()
+    mapboxNavigation?.mapboxReplayer?.clearEvents()
+    replayProgressObserver = null
   }
 
   private fun fetchRoute() {

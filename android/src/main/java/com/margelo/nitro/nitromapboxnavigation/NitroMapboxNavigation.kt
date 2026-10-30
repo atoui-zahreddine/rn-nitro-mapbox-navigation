@@ -63,6 +63,10 @@ class HybridNitroMapboxNavigation(val context: ThemedReactContext) : HybridNitro
       (view as NavigationView).setTravelMode(travelMode)
     }
   override var shouldSimulateRoute: Boolean? = null
+    set(value) {
+      field = value
+      (view as NavigationView).routeNeedsUpdate = true
+    }
   override var waypoints: Array<Waypoint>? = null
     set(value) {
       field = value

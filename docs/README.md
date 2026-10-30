@@ -23,7 +23,7 @@ npm install rn-nitro-mapbox-navigation react-native-nitro-modules
 
 > **Note**: `react-native-nitro-modules` is a peer dependency and is required for this library to work.
 
-The v3 integration on this branch is prerelease **0.11.0-beta.1**. Install `rn-nitro-mapbox-navigation@0.11.0-beta.1` to use the configuration below. The stable `latest` tag remains **0.10.0**.
+This branch prepares stable **0.11.0**, including Navigation **3.33.1** on both platforms. The published validation build is **0.11.0-beta.1** and still uses Android Navigation **3.12.2**; the public `latest` tag remains **0.10.0** until the stable upgrade is released.
 
 ### iOS dependencies
 
@@ -36,6 +36,14 @@ If the app also uses `@rnmapbox/maps`, both wrappers must resolve Mapbox from th
 The navigation pod owns the SPM source code; `@rnmapbox/maps` builds against that same copy. The app links and embeds the binary frameworks (`MapboxCommon`, `MapboxCoreMaps`, `MapboxNavigationNative`, and `Turf`) without linking a second copy of the source packages. Keep `Package.resolved` under version control when Xcode generates it.
 
 The Swift implementation follows Mapbox's [v3 drop-in UI integration](https://docs.mapbox.com/ios/navigation/guides/turn-by-turn-navigation/user-interface/): one `MapboxNavigationProvider`, routes from its routing provider, and `NavigationViewController(navigationRoutes:navigationOptions:)`. Mapbox creates and wires the standard instruction and trip-progress banners. The controller is embedded in the React Native view using UIKit child-controller containment. A single `StandardDayStyle` keeps the map light; Mapbox documents style configuration in [Maps for navigation](https://docs.mapbox.com/ios/navigation/guides/map-and-camera/maps/).
+
+### Android dependencies
+
+Android uses the official stable Mapbox Navigation **3.33.1**, with Maps **11.33.1** and Common **24.33.1** from the same dependency graph. The `-ndk27` artifacts are Mapbox's published builds for 16 KB page support. They are not a fork or prerelease. See the [Android release notes](https://docs.mapbox.com/android/navigation/releases/) and [installation guide](https://docs.mapbox.com/android/navigation/guides/install/).
+
+The Android build uses compile SDK **37**, NDK **27.1.12297006**, and Kotlin **2.2.0**. When also using `@rnmapbox/maps`, let Gradle resolve one matching Maps SDK version rather than forcing an older version.
+
+`shouldSimulateRoute` uses Mapbox's replay session API on Android. Mapbox marks that API as preview within its stable SDK; the library opts in only where replay is used.
 
 ### Compatibility validation
 

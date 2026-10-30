@@ -6,7 +6,7 @@
 
 # Interface: WaypointEvent
 
-Defined in: [NitroMapboxNavigation.nitro.ts:21](https://github.com/atoui-zahreddine/react-native-mapbox-turn-by-turn-navigation/blob/5e1ede5f5c52dc5a5917efc4ed1aef3314a6c4ab/src/NitroMapboxNavigation.nitro.ts#L21)
+Defined in: [NitroMapboxNavigation.nitro.ts:21](https://github.com/atoui-zahreddine/react-native-mapbox-turn-by-turn-navigation/blob/534e376e2d2ce605a44848f746e95eb62f836859/src/NitroMapboxNavigation.nitro.ts#L21)
 
 ## Extends
 
@@ -18,7 +18,7 @@ Defined in: [NitroMapboxNavigation.nitro.ts:21](https://github.com/atoui-zahredd
 
 > `optional` **index**: `number`
 
-Defined in: [NitroMapboxNavigation.nitro.ts:31](https://github.com/atoui-zahreddine/react-native-mapbox-turn-by-turn-navigation/blob/5e1ede5f5c52dc5a5917efc4ed1aef3314a6c4ab/src/NitroMapboxNavigation.nitro.ts#L31)
+Defined in: [NitroMapboxNavigation.nitro.ts:31](https://github.com/atoui-zahreddine/react-native-mapbox-turn-by-turn-navigation/blob/534e376e2d2ce605a44848f746e95eb62f836859/src/NitroMapboxNavigation.nitro.ts#L31)
 
 Index of legs/waypoint
 
@@ -32,7 +32,7 @@ Android
 
 > **latitude**: `number`
 
-Defined in: [NitroMapboxNavigation.nitro.ts:8](https://github.com/atoui-zahreddine/react-native-mapbox-turn-by-turn-navigation/blob/5e1ede5f5c52dc5a5917efc4ed1aef3314a6c4ab/src/NitroMapboxNavigation.nitro.ts#L8)
+Defined in: [NitroMapboxNavigation.nitro.ts:8](https://github.com/atoui-zahreddine/react-native-mapbox-turn-by-turn-navigation/blob/534e376e2d2ce605a44848f746e95eb62f836859/src/NitroMapboxNavigation.nitro.ts#L8)
 
 #### Inherited from
 
@@ -44,7 +44,7 @@ Defined in: [NitroMapboxNavigation.nitro.ts:8](https://github.com/atoui-zahreddi
 
 > **longitude**: `number`
 
-Defined in: [NitroMapboxNavigation.nitro.ts:9](https://github.com/atoui-zahreddine/react-native-mapbox-turn-by-turn-navigation/blob/5e1ede5f5c52dc5a5917efc4ed1aef3314a6c4ab/src/NitroMapboxNavigation.nitro.ts#L9)
+Defined in: [NitroMapboxNavigation.nitro.ts:9](https://github.com/atoui-zahreddine/react-native-mapbox-turn-by-turn-navigation/blob/534e376e2d2ce605a44848f746e95eb62f836859/src/NitroMapboxNavigation.nitro.ts#L9)
 
 #### Inherited from
 
@@ -56,7 +56,7 @@ Defined in: [NitroMapboxNavigation.nitro.ts:9](https://github.com/atoui-zahreddi
 
 > `optional` **name**: `string`
 
-Defined in: [NitroMapboxNavigation.nitro.ts:26](https://github.com/atoui-zahreddine/react-native-mapbox-turn-by-turn-navigation/blob/5e1ede5f5c52dc5a5917efc4ed1aef3314a6c4ab/src/NitroMapboxNavigation.nitro.ts#L26)
+Defined in: [NitroMapboxNavigation.nitro.ts:26](https://github.com/atoui-zahreddine/react-native-mapbox-turn-by-turn-navigation/blob/534e376e2d2ce605a44848f746e95eb62f836859/src/NitroMapboxNavigation.nitro.ts#L26)
 
 Name of Waypoint if provided or index of legs/waypoint
 
