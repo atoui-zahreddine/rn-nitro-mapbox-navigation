@@ -6,7 +6,7 @@
 
 # Interface: Waypoint
 
-Defined in: NitroMapboxNavigation.nitro.d.ts:6
+Defined in: [NitroMapboxNavigation.nitro.ts:12](https://github.com/atoui-zahreddine/react-native-mapbox-turn-by-turn-navigation/blob/534e376e2d2ce605a44848f746e95eb62f836859/src/NitroMapboxNavigation.nitro.ts#L12)
 
 ## Extends
 
@@ -18,7 +18,7 @@ Defined in: NitroMapboxNavigation.nitro.d.ts:6
 
 > **latitude**: `number`
 
-Defined in: NitroMapboxNavigation.nitro.d.ts:3
+Defined in: [NitroMapboxNavigation.nitro.ts:8](https://github.com/atoui-zahreddine/react-native-mapbox-turn-by-turn-navigation/blob/534e376e2d2ce605a44848f746e95eb62f836859/src/NitroMapboxNavigation.nitro.ts#L8)
 
 #### Inherited from
 
@@ -30,7 +30,7 @@ Defined in: NitroMapboxNavigation.nitro.d.ts:3
 
 > **longitude**: `number`
 
-Defined in: NitroMapboxNavigation.nitro.d.ts:4
+Defined in: [NitroMapboxNavigation.nitro.ts:9](https://github.com/atoui-zahreddine/react-native-mapbox-turn-by-turn-navigation/blob/534e376e2d2ce605a44848f746e95eb62f836859/src/NitroMapboxNavigation.nitro.ts#L9)
 
 #### Inherited from
 
@@ -42,7 +42,7 @@ Defined in: NitroMapboxNavigation.nitro.d.ts:4
 
 > `optional` **name**: `string`
 
-Defined in: NitroMapboxNavigation.nitro.d.ts:7
+Defined in: [NitroMapboxNavigation.nitro.ts:13](https://github.com/atoui-zahreddine/react-native-mapbox-turn-by-turn-navigation/blob/534e376e2d2ce605a44848f746e95eb62f836859/src/NitroMapboxNavigation.nitro.ts#L13)
 
 ***
 
@@ -50,7 +50,7 @@ Defined in: NitroMapboxNavigation.nitro.d.ts:7
 
 > `optional` **separatesLegs**: `boolean`
 
-Defined in: NitroMapboxNavigation.nitro.d.ts:12
+Defined in: [NitroMapboxNavigation.nitro.ts:18](https://github.com/atoui-zahreddine/react-native-mapbox-turn-by-turn-navigation/blob/534e376e2d2ce605a44848f746e95eb62f836859/src/NitroMapboxNavigation.nitro.ts#L18)
 
 Indicates whether the `onArrive` event is triggered when reaching the waypoint effectively.
 

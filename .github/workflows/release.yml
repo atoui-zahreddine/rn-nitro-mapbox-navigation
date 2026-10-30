@@ -6,8 +6,22 @@ on:
       - main
       - master
   workflow_dispatch:
+    inputs:
+      validate_only:
+        description: Run all consumer builds without publishing
+        type: boolean
+        default: false
+      prerelease:
+        description: Publish the checked-in prerelease version under the next tag after consumer checks
+        type: boolean
+        default: false
+      consumer_validation_run:
+        description: Optional completed Release run whose consumer builds passed (only release.yml may differ)
+        type: string
+        default: ''
 
 permissions:
+  actions: read
   contents: write
   issues: write
   pull-requests: write
@@ -17,7 +31,7 @@ jobs:
   release:
     runs-on: ubuntu-latest
     environment: production
-    if: ${{ !contains(github.event.head_commit.message, 'skip ci') }}
+    if: ${{ !inputs.validate_only && !inputs.prerelease && !contains(github.event.head_commit.message, 'skip ci') }}
 
     steps:
       - name: Checkout
@@ -27,14 +41,97 @@ jobs:
 
       - name: Setup
         uses: ./.github/actions/setup
-
-      - name: Run tests
-        run: yarn test
+        with:
+          node-version: '24'
 
       - name: Build
         run: yarn prepare
+
+      - name: Validate library
+        run: |
+          yarn lint
+          yarn typecheck
+          yarn test --runInBand
 
       - name: Release
         env:
           GITHUB_TOKEN: ${{ github.token }}
         run: yarn semantic-release
+
+  prerelease-checks:
+    if: github.event_name == 'workflow_dispatch' && (inputs.validate_only || (inputs.prerelease && !inputs.consumer_validation_run))
+    uses: ./.github/workflows/ios-compatibility.yml
+
+  reuse-consumer-checks:
+    if: github.event_name == 'workflow_dispatch' && !inputs.validate_only && inputs.prerelease && inputs.consumer_validation_run
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          fetch-depth: 0
+      - name: Verify prior consumer builds and unchanged source
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VALIDATION_RUN: ${{ inputs.consumer_validation_run }}
+        run: |
+          node - <<'JS'
+          const { execFileSync } = require('node:child_process');
+          const repository = process.env.GITHUB_REPOSITORY;
+          const id = process.env.VALIDATION_RUN;
+          if (!/^\d+$/.test(id)) throw new Error('Invalid consumer validation run ID.');
+          const api = (path) => JSON.parse(execFileSync('gh', ['api', `repos/${repository}/${path}`], { encoding: 'utf8' }));
+          const run = api(`actions/runs/${id}`);
+          if (run.status !== 'completed' || run.event !== 'workflow_dispatch' ||
+              run.path !== '.github/workflows/release.yml' ||
+              run.head_repository.full_name !== repository ||
+              run.head_branch !== process.env.GITHUB_REF_NAME) {
+            throw new Error('Validation must come from a completed Release run on this repository and branch.');
+          }
+          execFileSync('git', ['merge-base', '--is-ancestor', run.head_sha, process.env.GITHUB_SHA]);
+          execFileSync('git', ['diff', '--exit-code', run.head_sha, process.env.GITHUB_SHA,
+            '--', '.', ':(exclude).github/workflows/release.yml']);
+          const jobs = api(`actions/runs/${id}/jobs?per_page=100`);
+          if (jobs.total_count !== jobs.jobs.length) throw new Error('Incomplete job evidence.');
+          for (const name of ['rn-0880-default', 'rn-0881-default', 'rn-0881-static',
+            'rn-0881-maps-default', 'expo-58-maps-default', 'expo-58-maps-static',
+            'Android with latest Maps wrapper']) {
+            const job = jobs.jobs.find((job) => job.name === `prerelease-checks / ${name}`);
+            if (!job || job.status !== 'completed' || job.conclusion !== 'success') {
+              throw new Error(`Missing successful consumer build: ${name}`);
+            }
+          }
+          console.log(`Verified seven consumer builds from run ${id}; source unchanged outside release.yml.`);
+          JS
+
+  prerelease:
+    if: >-
+      always() && !cancelled() && github.event_name == 'workflow_dispatch' && !inputs.validate_only && inputs.prerelease &&
+      (needs.prerelease-checks.result == 'success' || needs.reuse-consumer-checks.result == 'success')
+    needs: [prerelease-checks, reuse-consumer-checks]
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '24'
+      - name: Validate prerelease metadata
+        run: |
+          node - <<'JS'
+          const pkg = require('./package.json');
+          if (!/^\d+\.\d+\.\d+-beta\.\d+$/.test(pkg.version)) {
+            throw new Error('The checked-in version must be an explicit beta prerelease.');
+          }
+          const repository = `git+https://github.com/${process.env.GITHUB_REPOSITORY}.git`;
+          if (pkg.repository.url !== repository) throw new Error('Repository must match the trusted publisher.');
+          JS
+      - name: Install and validate library
+        run: |
+          corepack enable
+          yarn install --immutable
+          yarn prepare
+          yarn lint
+          yarn typecheck
+          yarn test --runInBand
+      - name: Publish prerelease with trusted npm publisher
+        run: npm publish --ignore-scripts --provenance --tag next

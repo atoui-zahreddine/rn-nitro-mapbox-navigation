@@ -1,12 +1,7 @@
-import {
-  View,
-  StyleSheet,
-  StatusBar,
-  PermissionsAndroid,
-  Platform,
-} from 'react-native';
+import { View, StyleSheet, StatusBar, Button } from 'react-native';
 
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
+import LocationPermissionGate from './LocationPermissionGate';
 import {
   NitroMapboxNavigationView,
   type Coordinate,
@@ -17,38 +12,22 @@ import {
 import { callback } from 'react-native-nitro-modules';
 
 export default function App() {
-  const isMountedRef = useRef<boolean>(true);
-  const [ready, setReady] = useState(false);
+  return (
+    <LocationPermissionGate>
+      <NavigationExample />
+    </LocationPermissionGate>
+  );
+}
 
-  const checkPermissions = async () => {
-    try {
-      const granted = await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
-      );
-      if (granted !== PermissionsAndroid.RESULTS.GRANTED) {
-        console.warn('Location permission not granted');
-        return;
-      }
-      if (isMountedRef.current) setReady(true);
-    } catch (error) {
-      console.error('Error checking permissions:', error);
-    }
-  };
+function NavigationExample() {
+  const [navigating, setNavigating] = useState(true);
 
-  useEffect(() => {
-    isMountedRef.current = true;
-    if (Platform.OS === 'android') {
-      checkPermissions();
-    } else {
-      setReady(true); // Assume permissions are granted on iOS
-    }
-    return () => {
-      isMountedRef.current = false;
-    };
-  }, []);
-
-  if (!ready) {
-    return <View style={styles.container} />;
+  if (!navigating) {
+    return (
+      <View style={[styles.container, styles.centered]}>
+        <Button title="Start navigation" onPress={() => setNavigating(true)} />
+      </View>
+    );
   }
 
   return (
@@ -57,6 +36,8 @@ export default function App() {
       <View style={styles.container}>
         <NitroMapboxNavigationView
           style={styles.mapboxView}
+          shouldSimulateRoute={true}
+          mute={true}
           origin={{
             longitude: 5.082325,
             latitude: 51.558588,
@@ -69,6 +50,7 @@ export default function App() {
             console.log('Location changed:', event);
           })}
           onCancel={callback(() => {
+            setNavigating(false);
             console.log('Navigation cancelled');
           })}
           onArrival={callback((coordinates: Coordinate) => {
@@ -90,6 +72,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  centered: { justifyContent: 'center' },
   mapboxView: {
     flex: 1,
   },

@@ -128,8 +128,8 @@ dependencies {
   implementation "com.facebook.react:react-android"
   implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
   implementation project(":react-native-nitro-modules")
-  implementation "com.mapbox.navigationcore:navigation-ndk27:3.12.2"
-  implementation "com.mapbox.navigationcore:ui-components-ndk27:3.12.2"
+  implementation "com.mapbox.navigationcore:navigation-ndk27:3.33.1"
+  implementation "com.mapbox.navigationcore:ui-components-ndk27:3.33.1"
 
   implementation 'androidx.constraintlayout:constraintlayout:2.2.1'
   implementation 'androidx.cardview:cardview:1.0.0'

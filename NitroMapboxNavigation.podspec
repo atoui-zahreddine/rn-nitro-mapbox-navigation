@@ -1,4 +1,5 @@
 require "json"
+require_relative 'ios/mapbox_dependencies'
 
 package = JSON.parse(File.read(File.join(__dir__, "package.json")))
 
@@ -13,8 +14,6 @@ Pod::Spec.new do |s|
   s.platforms    = { :ios => min_ios_version_supported }
   s.source       = { :git => "https://github.com/atoui-zahreddine/rn-nitro-mapbox-navigation.git", :tag => "#{s.version}" }
 
-  s.source_files = "ios/**/*.{h,m,mm,swift}"
-
   s.source_files = [
     "ios/**/*.{swift}",
     "ios/**/*.{m,mm}",
@@ -23,7 +22,10 @@ Pod::Spec.new do |s|
 
   s.dependency 'React-jsi'
   s.dependency 'React-callinvoker'
-  s.dependency 'MapboxNavigation', '~> 2.20.1'
+  spm_dependency(s,
+    url: NitroMapboxNavigation::NAVIGATION_URL,
+    requirement: NitroMapboxNavigation::NAVIGATION_REQUIREMENT,
+    products: ['MapboxNavigationUIKit', 'MapboxNavigationCore', 'MapboxDirections'])
 
   load 'nitrogen/generated/ios/NitroMapboxNavigation+autolinking.rb'
   add_nitrogen_files(s)

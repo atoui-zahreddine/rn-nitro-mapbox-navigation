@@ -6,7 +6,7 @@
 
 # Interface: RouteProgress
 
-Defined in: NitroMapboxNavigation.nitro.d.ts:33
+Defined in: [NitroMapboxNavigation.nitro.ts:42](https://github.com/atoui-zahreddine/react-native-mapbox-turn-by-turn-navigation/blob/534e376e2d2ce605a44848f746e95eb62f836859/src/NitroMapboxNavigation.nitro.ts#L42)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: NitroMapboxNavigation.nitro.d.ts:33
 
 > **distanceRemaining**: `number`
 
-Defined in: NitroMapboxNavigation.nitro.d.ts:37
+Defined in: [NitroMapboxNavigation.nitro.ts:46](https://github.com/atoui-zahreddine/react-native-mapbox-turn-by-turn-navigation/blob/534e376e2d2ce605a44848f746e95eb62f836859/src/NitroMapboxNavigation.nitro.ts#L46)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: NitroMapboxNavigation.nitro.d.ts:37
 
 > **distanceTraveled**: `number`
 
-Defined in: NitroMapboxNavigation.nitro.d.ts:34
+Defined in: [NitroMapboxNavigation.nitro.ts:43](https://github.com/atoui-zahreddine/react-native-mapbox-turn-by-turn-navigation/blob/534e376e2d2ce605a44848f746e95eb62f836859/src/NitroMapboxNavigation.nitro.ts#L43)
 
 ***
 
@@ -30,7 +30,7 @@ Defined in: NitroMapboxNavigation.nitro.d.ts:34
 
 > **durationRemaining**: `number`
 
-Defined in: NitroMapboxNavigation.nitro.d.ts:35
+Defined in: [NitroMapboxNavigation.nitro.ts:44](https://github.com/atoui-zahreddine/react-native-mapbox-turn-by-turn-navigation/blob/534e376e2d2ce605a44848f746e95eb62f836859/src/NitroMapboxNavigation.nitro.ts#L44)
 
 ***
 
@@ -38,4 +38,4 @@ Defined in: NitroMapboxNavigation.nitro.d.ts:35
 
 > **fractionTraveled**: `number`
 
-Defined in: NitroMapboxNavigation.nitro.d.ts:36
+Defined in: [NitroMapboxNavigation.nitro.ts:45](https://github.com/atoui-zahreddine/react-native-mapbox-turn-by-turn-navigation/blob/534e376e2d2ce605a44848f746e95eb62f836859/src/NitroMapboxNavigation.nitro.ts#L45)
